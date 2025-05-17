@@ -1,0 +1,113 @@
+/* CTOS/DedSec-inspired theme with neon effects and animations */
+
+/* Neon flicker effect for text */
+@keyframes neon-flicker {
+    0% { opacity: 1; text-shadow: 0 0 8px #ff9444, 0 0 15px #ff9444; }
+    10% { opacity: 0.9; text-shadow: none; }
+    20% { opacity: 1; text-shadow: 0 0 8px #ff9444, 0 0 15px #ff9444; }
+    30% { opacity: 0.95; }
+    50% { opacity: 1; text-shadow: 0 0 12px #ff9444, 0 0 20px #ff9444; }
+    100% { opacity: 1; text-shadow: 0 0 8px #ff9444, 0 0 15px #ff9444; }
+}
+
+.dedsec-text {
+    animation: neon-flicker 2s infinite;
+}
+
+/* Blinking effect for Access Granted */
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.access-granted {
+    animation: blink 0.5s 3;
+}
+
+/* Typing effect for header */
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+#typed-name, #sidebar-name {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 3s steps(30, end) forwards;
+}
+
+/* Pulsing neon effect */
+@keyframes neon-pulse {
+    0% { box-shadow: 0 0 8px #00e6b8, 0 0 15px #00e6b8, 0 0 20px #00e6b8; }
+    50% { box-shadow: 0 0 15px #00e6b8, 0 0 30px #00e6b8, 0 0 40px #00e6b8; }
+    100% { box-shadow: 0 0 8px #00e6b8, 0 0 15px #00e6b8, 0 0 20px #00e6b8; }
+}
+
+.neon-pulse {
+    animation: neon-pulse 2s infinite;
+}
+
+.card {
+    animation: neon-pulse 3s infinite;
+}
+
+/* Node rotation */
+@keyframes node-rotate {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(5deg); }
+    100% { transform: rotate(0deg); }
+}
+
+.holo-node:hover {
+    animation: node-rotate 0.5s ease-in-out;
+}
+
+/* Ticker scroll */
+@keyframes ticker-scroll {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+/* CTOS/DedSec background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(90deg, rgba(0, 230, 184, 0.05) 1px, transparent 1px),
+        linear-gradient(rgba(0, 230, 184, 0.05) 1px, transparent 1px),
+        radial-gradient(circle at 50% 50%, rgba(255, 148, 68, 0.05) 0%, transparent 20%),
+        linear-gradient(45deg, rgba(204, 0, 255, 0.03) 2px, transparent 2px);
+    background-size: 20px 20px, 20px 20px, 100px 100px, 30px 30px;
+    z-index: -2;
+}
+
+/* HUD overlay */
+.hud-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.4;
+}
+
+/* Hover effects */
+.holo-node:hover,
+footer a:hover {
+    color: #ff9444;
+}
+
+.profile-photo img:hover {
+    box-shadow: 0 0 15px #ff9444, 0 0 30px #ff9444;
+}
+
+.card:hover {
+    border-color: #ff9444;
+}

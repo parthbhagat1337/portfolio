@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parth Bhagat - Cybersecurity Portfolio</title>
+    <!-- Google Fonts for cyberpunk aesthetic -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Link to global styles -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Link to CTOS/DedSec theme styles -->
+    <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+    <!-- Loading overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div id="loading-text" class="dedsec-text"></div>
+        <div id="access-granted" class="access-granted" style="display: none;">Access Granted</div>
+    </div>
+
+    <!-- CTOS/DedSec HUD overlay canvas -->
+    <canvas id="ctos-hud" class="hud-overlay"></canvas>
+
+    <!-- Main container for the portfolio -->
+    <div class="container">
+        <!-- Intro section (initial view) -->
+        <section class="intro-section" id="intro-section">
+            <h1 id="typed-name">Parth Dinesh Bhagat</h1>
+            <div class="profile-photo">
+                <img src="profile-photo.jpg" alt="Parth Bhagat Profile Photo" id="profile-img" class="neon-pulse">
+            </div>
+            <p class="dedsec-text check-profile"><check the profile></p>
+        </section>
+
+        <!-- New photo (shown after click) -->
+        <div class="new-photo" id="new-photo" style="display: none;">
+            <img src="new-photo.jpg" alt="Parth Bhagat New Photo">
+        </div>
+
+        <!-- Name block -->
+        <div class="name-block" id="name-block" style="display: none;">
+            <h1>Parth Dinesh Bhagat</h1>
+        </div>
+
+        <!-- Ticker block -->
+        <div class="ticker-block" id="ticker-block" style="display: none;">
+            <div class="ticker">
+                <span>100+ VAPT missions completed across critical infrastructures | Specializing in securing BFSI, government, and enterprise systems | Proficient in internal and external network assessments | Linux server hardening | Experienced in bypassing EDR/SIEM during red team engagements | OSINT | 3+ years in offensive security | Malware analysis | Post-exploitation techniques</span>
+            </div>
+        </div>
+
+        <!-- Tags block (holo-nodes) -->
+        <div class="tags-block" id="tags-block" style="display: none;">
+            <div class="holo-nodes" id="holo-nodes">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Main content area -->
+        <main id="content" style="display: none;">
+            <p id="fallback-message" style="display: none; color: #ff4444; font-size: 0.9em; text-align: center;">
+                Unable to load content. Check browser console (F12 > Console) for errors. Ensure files are present and server is running (e.g., 'python -m http.server').
+            </p>
+            <div id="dynamic-content"></div>
+        </main>
+
+
+
+    <!-- Modal for project details -->
+    <div id="project-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span id="modal-close" class="close">×</span>
+            <h2 id="modal-title"></h2>
+            <p id="modal-description"></p>
+            <a id="modal-link" href="#" target="_blank" style="display: none;">View Project</a>
+        </div>
+    </div>
+
+
+    <!-- Load JavaScript -->
+    <script src="data.js" type="module"></script>
+    <script src="main.js" type="module"></script>
+</body>
+</html>
