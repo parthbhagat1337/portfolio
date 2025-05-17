@@ -7,6 +7,11 @@
     box-sizing: border-box;
 }
 
+/* Root font size for rem scaling */
+html {
+    font-size: 16px;
+}
+
 /* Body styles */
 body {
     font-family: 'Inconsolata', monospace;
@@ -18,9 +23,9 @@ body {
 
 /* Main container */
 .container {
-    max-width: 1200px;
+    max-width: min(1200px, 95vw);
     margin: 0 auto;
-    padding: 20px;
+    padding: clamp(10px, 2vw, 20px);
     position: relative;
 }
 
@@ -40,7 +45,7 @@ body {
 
 #loading-text {
     font-family: 'Inconsolata', monospace;
-    font-size: 1.2em;
+    font-size: clamp(1rem, 2.5vw, 1.2em);
     color: #00e6b8;
     text-align: left;
     white-space: pre-wrap;
@@ -53,9 +58,9 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 15px 30px;
+    padding: clamp(10px, 2vw, 15px) clamp(20px, 4vw, 30px);
     font-family: 'Orbitron', sans-serif;
-    font-size: 1.8em;
+    font-size: clamp(1.4em, 3vw, 1.8em);
     color: #00e6b8;
     border: 2px solid #00e6b8;
     background: rgba(0, 0, 0, 0.8);
@@ -77,25 +82,26 @@ body {
 .intro-section h1 {
     font-family: 'Orbitron', sans-serif;
     font-weight: 900;
-    font-size: 3em;
+    font-size: clamp(2em, 5vw, 3em);
     color: #00e6b8;
     text-transform: uppercase;
 }
 
 .profile-photo {
-    margin-top: 20px;
+    margin-top: clamp(15px, 2vw, 20px);
     position: relative;
     transition: opacity 0.5s;
     opacity: 1;
 }
 
 .profile-photo img {
-    width: 240px;
-    height: 320px;
+    width: min(240px, 60vw);
+    height: auto;
+    aspect-ratio: 3 / 4;
     border-radius: 10px;
     object-fit: cover;
     border: 2px solid #00e6b8;
-    box-shadow: 0 0 15px rgba(0, 230, 184, 0.3), inset 0 0 8px rgba(0, 230, 184, 0.2);
+    box-shadow: 0 0 clamp(10px, 2vw, 15px) rgba(0, 230, 184, 0.3), inset 0 0 8px rgba(0, 230, 184, 0.2);
     cursor: pointer;
 }
 
@@ -123,8 +129,8 @@ body {
 
 /* Check profile */
 .check-profile {
-    margin-top: 15px;
-    font-size: 1.1em;
+    margin-top: clamp(10px, 2vw, 15px);
+    font-size: clamp(0.9em, 2vw, 1.1em);
     font-family: 'Inconsolata', monospace;
 }
 
@@ -138,6 +144,9 @@ body {
     z-index: 15;
     opacity: 0;
     transition: opacity 0.5s;
+    width: 90%;
+    overflow-wrap: break-word;
+    overflow: visible;
 }
 
 .name-block.visible {
@@ -147,7 +156,7 @@ body {
 .name-block h1 {
     font-family: 'Orbitron', sans-serif;
     font-weight: 900;
-    font-size: 2.5em;
+    font-size: clamp(1.8em, 4vw, 2.5em);
     color: #00e6b8;
     white-space: nowrap;
 }
@@ -170,7 +179,7 @@ body {
 
 .ticker {
     background: rgba(0, 0, 0, 0.7);
-    padding: 8px 0;
+    padding: clamp(6px, 1vw, 8px) 0;
     overflow: hidden;
     white-space: nowrap;
     width: 80%;
@@ -180,7 +189,7 @@ body {
     display: inline-block;
     color: #ff9444;
     font-family: 'Orbitron', sans-serif;
-    font-size: 1em;
+    font-size: clamp(0.8em, 2vw, 1em);
     animation: ticker-scroll 45s linear infinite;
 }
 
@@ -202,14 +211,14 @@ body {
 .holo-nodes {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: clamp(8px, 1.5vw, 10px);
 }
 
 .holo-node {
     display: block;
-    padding: 5px 8px;
+    padding: clamp(4px, 1vw, 5px) clamp(6px, 1.5vw, 8px);
     color: #00e6b8;
-    font-size: 1.2em;
+    font-size: clamp(1em, 2vw, 1.2em);
     font-family: 'Inconsolata', monospace;
     border: 1px solid #00e6b8;
     background: rgba(0, 0, 0, 0.7);
@@ -256,15 +265,13 @@ body {
 main {
     display: none;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(0, 183, 235, 0.1));
-    padding: 20px;
+    padding: clamp(15px, 2vw, 20px);
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 230, 184, 0.3);
-    margin-top: 15%; /* 10% gap below ticker */
-    margin-left: 50%; /* Increased from 25% to reduce width by 5% */
-    margin-right: 50%; /* Increased from 25% to reduce width by 5% */
-    max-width: 600px; /* Wider content */
+    box-shadow: 0 0 clamp(8px, 1.5vw, 10px) rgba(0, 230, 184, 0.3);
+    margin-top: 15%;
     margin-left: 25%;
     margin-right: 15%;
+    max-width: 600px;
     opacity: 0;
     transition: opacity 0.5s;
     z-index: 15; /* Above content-line, new-photo, tags-block */
@@ -277,15 +284,15 @@ main.visible {
 }
 
 #dynamic-content {
-    margin-top: 15px;
+    margin-top: clamp(10px, 2vw, 15px);
     pointer-events: auto; /* Ensure children are clickable */
 }
 
 /* Card styles with hexagonal shape */
 .card {
     background: rgba(0, 0, 0, 0.6);
-    padding: 20px;
-    margin: 15px 0;
+    padding: clamp(15px, 2vw, 20px);
+    margin: clamp(10px, 2vw, 15px) 0;
     border: 2px solid #00e6b8;
     clip-path: polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%);
     transition: transform 0.3s, box-shadow 0.3s;
@@ -294,23 +301,23 @@ main.visible {
 
 .card:hover {
     transform: scale(1.02);
-    box-shadow: 0 0 15px rgba(0, 230, 184, 0.5);
+    box-shadow: 0 0 clamp(10px, 2vw, 15px) rgba(0, 230, 184, 0.5);
 }
 
 .card h3 {
     color: #ff9444;
-    font-size: 1.2em;
+    font-size: clamp(1em, 2.5vw, 1.2em);
     font-family: 'Orbitron', sans-serif;
 }
 
 .card p, .card ul {
-    margin: 10px 0;
-    font-size: 1.1em;
+    margin: clamp(8px, 1.5vw, 10px) 0;
+    font-size: clamp(0.9em, 2vw, 1.1em);
 }
 
 .card ul {
     list-style: none;
-    margin-left: 20px;
+    margin-left: clamp(15px, 2vw, 20px);
 }
 
 .card ul li::before {
@@ -323,13 +330,13 @@ main.visible {
 .stats {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-top: 15px;
+    gap: clamp(8px, 1.5vw, 10px);
+    margin-top: clamp(10px, 2vw, 15px);
 }
 
 .stats div {
     font-family: 'Orbitron', sans-serif;
-    font-size: 1.0em;
+    font-size: clamp(0.8em, 2vw, 1.0em);
     color: #00e6b8;
 }
 
@@ -340,19 +347,19 @@ main.visible {
 /* Contact terminal styles */
 .contact-terminal {
     background: rgba(0, 0, 0, 0.8);
-    padding: 20px;
+    padding: clamp(15px, 2vw, 20px);
     border: 2px solid #00e6b8;
     text-align: center;
     clip-path: polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%);
-    margin-bottom: 20px;
+    margin-bottom: clamp(15px, 2vw, 20px);
     pointer-events: auto; /* Ensure clickable */
 }
 
 .contact-terminal h3 {
     color: #ff9444;
     font-family: 'Orbitron', sans-serif;
-    font-size: 1.5em;
-    margin-bottom: 15px;
+    font-size: clamp(1.2em, 2.5vw, 1.5em);
+    margin-bottom: clamp(10px, 2vw, 15px);
     text-align: center;
     text-transform: uppercase;
 }
@@ -360,11 +367,11 @@ main.visible {
 .contact-item {
     display: block;
     text-align: center;
-    padding: 8px 15px;
-    margin: 5px 0;
+    padding: clamp(6px, 1.5vw, 8px) clamp(10px, 2vw, 15px);
+    margin: clamp(4px, 1vw, 5px) 0;
     color: #00e6b8;
     font-family: 'Inconsolata', monospace;
-    font-size: 1.0em;
+    font-size: clamp(0.8em, 2vw, 1.0em);
     border: 1px solid #00e6b8;
     background: rgba(0, 230, 184, 0.1);
     clip-path: polygon(5% 0%, 95% 0%, 100% 20%, 100% 80%, 95% 100%, 5% 100%, 0% 80%, 0% 20%);
@@ -404,10 +411,10 @@ main.visible {
 
 /* Skills filter */
 .skills-filter {
-    margin-bottom: 15px;
+    margin-bottom: clamp(10px, 2vw, 15px);
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: clamp(8px, 1.5vw, 10px);
     pointer-events: auto; /* Ensure clickable */
 }
 
@@ -415,11 +422,11 @@ main.visible {
     background: #00e6b8;
     color: #0a0a0a;
     border: none;
-    padding: 8px 15px;
+    padding: clamp(6px, 1.5vw, 8px) clamp(10px, 2vw, 15px);
     border-radius: 3px;
     cursor: pointer;
     font-family: 'Orbitron', sans-serif;
-    font-size: 0.9em;
+    font-size: clamp(0.7em, 1.5vw, 0.9em);
     transition: background 0.3s;
     pointer-events: auto; /* Ensure clickable */
 }
@@ -435,15 +442,15 @@ main.visible {
 
 /* Skill bars */
 .skill-bar {
-    margin: 15px 0;
-    max-width: 600px;
+    margin: clamp(10px, 2vw, 15px) 0;
+    max-width: min(600px, 90%);
 }
 
 .skill-bar label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: clamp(6px, 1vw, 8px);
     color: #ff9444;
-    font-size: 1.2em;
+    font-size: clamp(1em, 2vw, 1.2em);
     font-weight: bold;
 }
 
@@ -456,16 +463,16 @@ main.visible {
 }
 
 .skill-details li {
-    font-size: 1.2em;
+    font-size: clamp(1em, 2vw, 1.2em);
     top: 20px;
-    margin-top: 10px;
+    margin-top: clamp(8px, 1.5vw, 10px);
 }
 
 /* Project grid */
 .project-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(min(200px, 45vw), 1fr));
+    gap: clamp(10px, 2vw, 15px);
 }
 
 .project-card {
@@ -489,10 +496,10 @@ main.visible {
 
 .modal-content {
     background: #0a0a0a;
-    padding: 20px;
+    padding: clamp(15px, 2vw, 20px);
     border: 2px solid #00e6b8;
     clip-path: polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%);
-    max-width: 500px;
+    max-width: min(500px, 90%);
     width: 90%;
     position: relative;
     pointer-events: auto; /* Ensure clickable */
@@ -502,7 +509,7 @@ main.visible {
     position: absolute;
     top: 10px;
     right: 15px;
-    font-size: 1.2em;
+    font-size: clamp(1em, 2vw, 1.2em);
     color: #00e6b8;
     cursor: pointer;
     pointer-events: auto; /* Ensure clickable */
@@ -514,14 +521,14 @@ main.visible {
 
 #modal-link, #contact-submit {
     display: inline-block;
-    margin-top: 15px;
-    padding: 8px 15px;
+    margin-top: clamp(10px, 2vw, 15px);
+    padding: clamp(6px, 1.5vw, 8px) clamp(10px, 2vw, 15px);
     background: #00e6b8;
     color: #0a0a0a;
     text-decoration: none;
     border-radius: 3px;
     font-family: 'Orbitron', sans-serif;
-    font-size: 0.9em;
+    font-size: clamp(0.7em, 1.5vw, 0.9em);
     pointer-events: auto; /* Ensure clickable */
 }
 
@@ -533,32 +540,33 @@ main.visible {
 #contact-form {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: clamp(6px, 1vw, 8px);
 }
 
 #contact-form input, #contact-form textarea {
-    padding: 8px;
+    padding: clamp(6px, 1vw, 8px);
     background: rgba(0, 0, 0, 0.6);
     border: 1px solid #00e6b8;
     color: #e0e0e0;
     font-family: 'Inconsolata', monospace;
     border-radius: 3px;
-    font-size: 0.9em;
+    font-size: clamp(0.7em, 1.5vw, 0.9em);
     pointer-events: auto; /* Ensure clickable */
 }
 
 #contact-form textarea {
     resize: vertical;
-    min-height: 80px;
+    min-height: clamp(60px, 10vw, 80px);
 }
 
 /* Footer styles */
 footer {
     text-align: center;
-    padding: 20px 0;
+    padding: clamp(15px, 2vw, 20px) 0;
     border-top: 1px solid #00e6b8;
-    margin-left: 30%; /* Match main */
-    margin-right: 30%; /* Match main */
+    margin-left: 25%;
+    margin-right: 15%;
+    font-size: clamp(0.8em, 1.5vw, 1em);
 }
 
 /* Content line canvas */
@@ -579,23 +587,22 @@ footer {
     pointer-events: none; /* Prevent click interception */
 }
 
-/* Mobile responsiveness */
-@media (max-width: 768px) {
+/* Mobile (small screens, <= 576px) */
+@media (max-width: 576px) {
     .container {
-        padding: 10px;
+        padding: 8px;
     }
 
     .intro-section {
-        padding: 20px;
+        padding: 15px;
     }
 
     .intro-section h1 {
-        font-size: 2em;
+        font-size: clamp(1.3em, 5vw, 1.5em);
     }
 
     .profile-photo img {
-        width: 180px;
-        height: 240px;
+        width: min(180px, 80vw);
     }
 
     .check-profile {
@@ -605,12 +612,17 @@ footer {
     .name-block {
         position: static;
         transform: none;
-        padding: 15px;
-        margin-bottom: 10px;
+        padding: 10px;
+        margin: 0 auto 10px;
+        width: 100%;
+        overflow-wrap: break-word;
+        overflow: visible;
+        text-overflow: clip;
     }
 
     .name-block h1 {
-        font-size: 1.8em;
+        font-size: clamp(0.9em, 3.5vw, 1.3em);
+        white-space: normal;
     }
 
     .ticker-block {
@@ -627,7 +639,7 @@ footer {
 
     .ticker span {
         font-size: 0.8em;
-        animation: ticker-scroll 30s linear infinite; /* Shortened duration */
+        animation: ticker-scroll 30s linear infinite;
     }
 
     .tags-block {
@@ -654,13 +666,16 @@ footer {
     .new-photo {
         position: static;
         width: 100%;
-        height: 30vh; /* Proportional height */
-        margin-bottom: 15px;
+        height: auto;
+        max-height: 50vh;
+        margin: 10px 0 15px;
+        z-index: 10;
     }
 
     .new-photo img {
+        width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
     }
 
     main {
@@ -670,7 +685,7 @@ footer {
         margin-bottom: 20px;
         max-width: 100%;
         padding: 15px;
-        z-index: 15; /* Maintain above canvases */
+        z-index: 15;
     }
 
     footer {
@@ -754,5 +769,126 @@ footer {
     #contact-form input, #contact-form textarea {
         font-size: 0.8em;
         padding: 6px;
+    }
+}
+
+/* Tablet (577px–992px) */
+@media (min-width: 577px) and (max-width: 992px) {
+    .container {
+        padding: 15px;
+    }
+
+    .intro-section h1 {
+        font-size: clamp(1.8em, 4vw, 2.5em);
+    }
+
+    .profile-photo img {
+        width: min(200px, 50vw);
+    }
+
+    .name-block h1 {
+        font-size: clamp(1.6em, 3.5vw, 2em);
+    }
+
+    .ticker-block {
+        width: 85vw;
+    }
+
+    .ticker {
+        width: 90%;
+    }
+
+    .tags-block {
+        width: 25%;
+        top: 150px;
+        left: 15px;
+    }
+
+    .new-photo {
+        width: 40%;
+    }
+
+    main {
+        margin-left: 30%;
+        margin-right: 10%;
+        max-width: 700px;
+    }
+
+    footer {
+        margin-left: 30%;
+        margin-right: 10%;
+    }
+
+    .project-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+}
+
+/* Desktop (993px–1200px, 15" optimization) */
+@media (min-width: 993px) and (max-width: 1200px) {
+    .container {
+        max-width: 90vw;
+    }
+
+    main {
+        margin-left: 20%;
+        margin-right: 30%;
+        max-width: 600px;
+    }
+
+    footer {
+        margin-left: 25%;
+        margin-right: 15%;
+    }
+}
+
+/* Large Desktop (1201px and above, 4K displays) */
+@media (min-width: 1201px) {
+    .container {
+        max-width: min(1400px, 90vw);
+    }
+
+    .intro-section h1 {
+        font-size: clamp(2.5em, 4vw, 3.5em);
+    }
+
+    .profile-photo img {
+        width: min(300px, 20vw);
+    }
+
+    .name-block h1 {
+        font-size: clamp(2em, 3.5vw, 3em);
+    }
+
+    .tags-block {
+        width: 15%;
+        left: 30px;
+    }
+
+    .new-photo {
+        width: 30%;
+    }
+
+    main {
+        margin-left: 20%;
+        margin-right: 25%;
+        max-width: 800px;
+    }
+
+    footer {
+        margin-left: 20%;
+        margin-right: 10%;
+    }
+
+    .card h3 {
+        font-size: clamp(1.2em, 2vw, 1.4em);
+    }
+
+    .card p, .card ul {
+        font-size: clamp(1em, 1.8vw, 1.2em);
+    }
+
+    .project-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     }
 }
