@@ -9,58 +9,55 @@ const resumeData = {
             {
                 name: "Security Operations",
                 proficiency: 85,
-                details: ["SIEM Monitoring (Splunk, IBM QRadar, Seceon)", "Threat Detection", "Log Analysis"],
-                badge: "security-ops-badge.png"
+                details: ["SIEM Monitoring (Splunk, IBM QRadar, Seceon)", "Threat Detection", "Log Analysis","SIEM/SOAR Tools Integration"],
             },
             {
                 name: "Penetration Testing",
                 proficiency: 90,
-                details: ["Web & Network VAPT", "Red Teaming", "Exploit Analysis (Metasploit, Burp Suite, Nessus)"],
-                badge: "pentest-badge.png"
+                details: ["VAPT, WAPT, MAPT", "Red Teaming Exercises", "Firewall testing", "EDR/AV Testing"],
             },
             {
                 name: "Threat Intelligence",
                 proficiency: 80,
-                details: ["CTI Analysis", "TTP Analysis (MITRE ATT&CK)", "Dark Web Research (Shodan)"],
-                badge: "threat-intel-badge.png"
+                details: ["CTI Analysis", "TTP Analysis (MITRE ATT&CK)", "Dark Web Research", "OSINT"],
             },
             {
                 name: "Digital Forensics",
                 proficiency: 75,
-                details: ["Malware Analysis", "Log Forensics (Wireshark, Autopsy)", "Incident Response"],
-                badge: "forensics-badge.png"
+                details: ["Malware Analysis", "Log Forensics (Wireshark, Autopsy)", "Incident Response Planning"],
             },
             {
                 name: "Compliance & Governance",
                 proficiency: 80,
-                details: ["PCI-DSS, ISO 27001, NIST", "Risk Assessment", "Security Audits"],
-                badge: "compliance-badge.png"
+                details: ["PCI-DSS, ISO 27001, NIST, SOC 1/2", "Risk Assessment", "Security Audits", "Business Continuity Planning"],
             },
             {
                 name: "Networking & Systems",
                 proficiency: 85,
-                details: ["Firewall Config (Fortinet, Palo Alto)", "Linux/Windows Security", "Automation (Ansible, BloodHound)"],
-                badge: "networking-badge.png"
+                details: ["Firewall Config Review(Fortinet, Palo Alto)", "Linux/Windows Security", "Automation (Github CI/CD, Terraform, Ansible, BloodHound), Active Directory"],
             },
             {
-                name: "Scripting",
+                name: "Programming & Scripting",
                 proficiency: 80,
                 details: ["Python", "Bash", "PowerShell"],
-                badge: "scripting-badge.png"
             }
         ]
     },
     experience: {
         timeline: [
             {
-                role: "Jr. Security Engineer",
+                role: "Security Engineer",
                 organization: "ESDS Software Solutions, Nashik",
                 period: "Dec 2022 - Feb 2024",
                 achievements: [
-                    "Conducted 100+ VAPT engagements, securing BFSI and government networks.",
-                    "Built CERT-ESDS/CSIRT, enhancing threat hunting and incident response.",
-                    "Mitigated phishing and ransomware threats using Nessus, Burp Suite, and Wireshark.",
-                    "Ensured compliance with ISMS, PCI-DSS, SOC 1/2, and ISO 27001 standards."
+                    "Conducted 100+ VAPT/WAPT/MAPT engagements, securing BFSI and government networks.",
+                    "Helped in building CERT-ESDS, enhancing threat hunting and incident response.",
+                    "Mitigated phishing and ransomware threats.",
+                    "Provided Cyber Awareness training for all employees in organization.",
+                    "Ensured compliance with ISMS, PCI-DSS, SOC 1/2, ISO 27001 standards and helped with Audits.",
+                    "SIEM Integration, Blue Teaming. Threat monitoring, Creating use-cases for SIEM.",
+                    "Automation using bash scripting,",
+                    "Collaborating with clients to enhance security."
                 ]
             },
             {
@@ -78,7 +75,7 @@ const resumeData = {
     education: {
         records: [
             {
-                degree: "Masters of Science in Cybersecurity",
+                degree: "Masters of Science in CyberSecurity",
                 institution: "Dublin Business School, Dublin, Ireland",
                 period: "Sept 2024 - Sept 2025",
             },
@@ -102,17 +99,17 @@ const resumeData = {
         missions: [
                         {
                 name: "DUBSEC Conference",
-                description: "Delivered a talk on SSH Tunnelling at DUBSEC, showcasing secure communication tactics.",
-                link: ""
+                description: "Delivered a talk on at DUBSEC Conference, showcasing secure communication tactics.",
+                link: "https://www.linkedin.com/posts/parth-bhagat-386954113_hacker-dubsec-sshtunneling-activity-7257721882940989443-UqKv?utm_source=share&utm_medium=member_desktop&rcm=ACoAABxwThYBw0s0RZzpf1TI85Tzftvm8-tCZa0"
             },
             {
                 name: "Secure Network Design",
                 description: "Architected a fortified network for a mid-sized outsourcing firm, enhancing security posture.",
-                link: ""
+                link: "https://www.linkedin.com/posts/parth-bhagat-386954113_networking-networkdesign-itinfrastructure-activity-7303813046840254465-jTej?utm_source=share&utm_medium=member_desktop&rcm=ACoAABxwThYBw0s0RZzpf1TI85Tzftvm8-tCZa0"
             },
             {
                 name: "Penetration Testing Ops",
-                description: "Executed 100+ VAPT missions across BFSI and government sectors, neutralizing vulnerabilities.",
+                description: "Executed 100+ VAPT,WAPT missions across BFSI and government sectors, neutralizing vulnerabilities.",
                 link: ""
             },
             {
@@ -127,13 +124,13 @@ const resumeData = {
             },
             {
                 name: "AI Disaster Recovery",
-                description: "Researched AI-driven disaster recovery to enhance ransomware resilience.",
+                description: "Currently Researching AI-driven disaster recovery techniques to enhance ransomware resilience.",
                 link: ""
             },
             {
                 name: "AWS-Docker-CICD",
                 description: "Automated AWS instance creation and Docker deployment with nginx, streamlining CI/CD.",
-                link: "https://github.com/parthbhagat1337"
+                link: "https://github.com/parthbhagat1337/AWS-Docker-CICD-project.git"
             }
         ]
     },
@@ -141,7 +138,7 @@ const resumeData = {
         channels: {
             email: "parthbhagat5997@gmail.com",
             linkedin: "https://www.linkedin.com/in/parth-bhagat-386954113/",
-            github: "https://github.com/CrashNBurn1337",
+            github: "https://github.com/parthbhagat1337",
             medium: "https://medium.com/@cybercrash1337",
             }
     }
