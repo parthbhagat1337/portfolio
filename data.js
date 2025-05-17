@@ -133,7 +133,7 @@ const resumeData = {
             {
                 name: "AWS-Docker-CICD",
                 description: "Automated AWS instance creation and Docker deployment with nginx, streamlining CI/CD.",
-                link: "https://github.com/CrashNBurn1337"
+                link: "https://github.com/parthbhagat1337"
             }
         ]
     },
