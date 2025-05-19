@@ -103,6 +103,11 @@ const resumeData = {
                 link: "https://www.linkedin.com/posts/parth-bhagat-386954113_hacker-dubsec-sshtunneling-activity-7257721882940989443-UqKv?utm_source=share&utm_medium=member_desktop&rcm=ACoAABxwThYBw0s0RZzpf1TI85Tzftvm8-tCZa0"
             },
             {
+                name: "DeDQuiz-App",
+                description: "DeDQuiz is a Android quiz application that I have created so as to test my knowledge and practice MCQ's like for CISSP, Comptia, Linux or say GK etc. without any ads and subscriptions. It loads mcq dynamically from firebase real-time database.",
+                link: "https://github.com/parthbhagat1337/DeDQuiz-App-apk.git"
+            },
+            {
                 name: "Secure Network Design",
                 description: "Architected a fortified network for a mid-sized outsourcing firm, enhancing security posture.",
                 link: "https://www.linkedin.com/posts/parth-bhagat-386954113_networking-networkdesign-itinfrastructure-activity-7303813046840254465-jTej?utm_source=share&utm_medium=member_desktop&rcm=ACoAABxwThYBw0s0RZzpf1TI85Tzftvm8-tCZa0"
