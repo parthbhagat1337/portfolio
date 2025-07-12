@@ -444,25 +444,29 @@
             <div class="summary-grid">
                 <div class="summary-item">
                     <h4><i class="fas fa-bullseye"></i> Research Objective</h4>
-                    <p>Develop and evaluate machine learning models for detecting Command and Control (C2) communication patterns in network traffic using metadata-based features.</p>
+                    <p>The objective of this research is to develop and evaluate machine learning models that can detect Command-and-Control (C2) communication in network traffic using flow-based and timing-based features. My aim is to create synthetic datasets by simulating C2 traffic in a controlled lab environment, extract useful network features, and test different ML models to find which ones work best. This study also explores whether lightweight models can be used for real-time C2 detection on low-resource devices, and how well synthetic data performs compared to real-world scenarios.</p>
                 </div>
                <div class="summary-item">
                     <h4><i class="fas fa-question-circle"></i> Key Research Questions</h4>
-                    <ul>
-                        <li>Which network features (e.g., flow-based, timing-based, protocol metadata) are most predictive for distinguishing C2 communication from legitimate traffic?</li>
-                        <li>Can synthetic datasets generated in a lab environment provide reliable training data for real-world C2 detection?</li>
-                        <li>Which machine learning models perform best in detecting C2 communication in synthetic network traffic?</li>
-                        <li>Can lightweight ML models be deployed for real-time detection of C2 on low-resource edge devices or routers?</li>
-                    </ul>
+                        <ul>
+                            <p>Which network features (e.g., flow-based, timing-based, protocol metadata) are most predictive for distinguishing C2 communication from legitimate traffic?</p>
+                            <p>Can synthetic datasets generated in a lab environment provide reliable training data for real-world C2 detection?</p>
+                            <p>Which machine learning models perform best in detecting C2 communication in synthetic network traffic?</p>
+                            <p>Can lightweight ML models be deployed for real-time detection of C2 on low-resource edge devices or routers?</p>
+                        </ul>
                 </div>
 
                 <div class="summary-item">
                     <h4><i class="fas fa-flask"></i> Methodology</h4>
-                    <p>Comparative analysis of Decision Tree, Random Forest, and SVM algorithms using synthetic data from controlled lab environments.</p>
+                    <p>CA virtual lab environment is created to simulate both normal and C2 network traffic. The traffic is captured, labeled, and used to build a synthetic dataset. Important features such as flow size, timing patterns, and protocol information are extracted from the data. Multiple machine learning models are trained and tested on this dataset to detect C2 communication. Lightweight models are also evaluated for their ability to run on low-resource devices while maintaining good detection accuracy.</p>
                 </div>
                 <div class="summary-item">
                     <h4><i class="fas fa-star"></i> Expected Contributions</h4>
-                    <p>Enhanced detection capabilities for modern C2 communications with improved real-world applicability and reduced false positive rates.</p>
+                    <p>A synthetic dataset containing labeled C2 and normal network traffic generated in a controlled lab environment.</p>
+                    <p>A comparison of different machine learning models for detecting C2 communication using flow-based and timing-based features.</p>
+                    <p>Insights into which features are most effective for identifying C2 traffic.</p>
+                    <p>Evaluation of lightweight ML models for potential use in real-time C2 detection on low-resource or edge devices.</p>
+                    <p>A practical methodology that can be reused or extended for future C2 detection research.</p>
                 </div>
             </div>
         </div>
