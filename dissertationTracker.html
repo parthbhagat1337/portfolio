@@ -3,619 +3,1113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detecting Encrypted Command-and-Control(C2) Communications Using ML</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto+Mono:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <title>Master's Dissertation Progress Tracker</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #0A0A10;
-            --bg-medium: #151520;
-            --bg-light: #252530;
-            --primary-glow: #00F0FF;
-            --primary-glow-dark: #00B0FF;
-            --secondary-glow: #EE82EE;
-            --secondary-glow-dark: #CC00CC;
-            --accent-green: #00FFC0;
-            --accent-green-dark: #00CC99;
-            --text-light: #E0E0FF;
-            --text-medium: #B0B0CC;
-            --text-dark: #808099;
-            --border-techy: rgba(0, 240, 255, 0.2);
-            --border-techy-strong: rgba(0, 240, 255, 0.4);
-            --neon-orange: #FF5722;
-            --neon-orange-dark: #E64A19;
-            --neon-glow-orange: rgba(255, 87, 34, 0.6);
+            --primary-bg: #0a0a0a;
+            --secondary-bg: #1a1a1a;
+            --accent-bg: #2a2a2a;
+            --neon-green: #00ff41;
+            --neon-blue: #0099ff;
+            --neon-red: #ff0040;
+            --neon-orange: #ff6600;
+            --neon-purple: #cc00ff;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-muted: #666666;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Roboto Mono', monospace;
-            background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(circle at 10% 10%, rgba(0,240,255,0.05) 1px, transparent 1px),
-                radial-gradient(circle at 90% 90%, rgba(238,130,238,0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
-            color: var(--text-light);
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
             min-height: 100vh;
-            line-height: 1.6;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 20px 0;
             overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-        .container { max-width: 1400px; margin: 0 auto; padding: 20px; width: 100%; }
-        .card-base {
-            background: var(--bg-medium);
-            border-radius: 12px;
-            border: 1px solid var(--border-techy);
-            box-shadow: 0 5px 20px rgba(0, 240, 255, 0.08), inset 0 0 8px rgba(0, 240, 255, 0.05);
-            transition: all 0.3s ease-out;
             position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(5px);
         }
-        .card-base::before {
-            content: '';
-            position: absolute;
-            top: -1px; bottom: -1px; left: -1px; right: -1px;
-            background: linear-gradient(45deg, var(--primary-glow), var(--secondary-glow));
-            border-radius: 13px;
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
             z-index: -1;
-            filter: blur(8px);
-            opacity: 0;
-            transition: opacity 0.3s ease-out;
         }
-        .card-base:hover::before { opacity: 0.2; }
-        .card-base:hover {
-            transform: translateY(-5px) scale(1.005);
-            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.15), inset 0 0 12px rgba(0, 240, 255, 0.08);
-            border-color: var(--border-techy-strong);
-        }
-        .header {
-            background: linear-gradient(135deg, #0A0A10 0%, #151520 100%);
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            padding: 35px;
-            margin-bottom: 30px;
-            animation: fadeIn 1s ease-out;
-        }
-        .header h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: var(--primary-glow);
-            text-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
-            letter-spacing: 2px;
-            animation: textGlow 2s infinite alternate;
-        }
-        @keyframes textGlow {
-            from { text-shadow: 0 0 10px var(--primary-glow), 0 0 20px var(--primary-glow-dark); }
-            to { text-shadow: 0 0 15px var(--primary-glow), 0 0 25px var(--primary-glow-dark), 0 0 35px var(--primary-glow-dark); }
-        }
-        .header p {
-            font-size: 1.15rem;
-            color: var(--text-medium);
-            margin-bottom: 25px;
+
+        .matrix-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #001100, #000a00, #001a00);
             opacity: 0.8;
         }
+
+        .network-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(0, 255, 65, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 153, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(255, 0, 64, 0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--primary-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-green);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-blue);
+        }
+
+        /* Header */
+        .header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 2rem 0;
+            text-align: center;
+            z-index: 100;
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+            margin-bottom: 0.5rem;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 30px rgba(0, 255, 65, 0.5); }
+            to { text-shadow: 0 0 40px rgba(0, 255, 65, 0.8), 0 0 50px rgba(0, 153, 255, 0.3); }
+        }
+
+        .header .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        .header .research-focus {
+            font-size: 1.2rem;
+            color: var(--neon-orange);
+            font-weight: 500;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
         .overall-progress {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 40px rgba(0, 255, 65, 0.1);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--neon-green);
             display: flex;
             align-items: center;
-            gap: 20px;
-            margin-top: 25px;
-            background-color: rgba(0, 240, 255, 0.08);
-            border-radius: 8px;
-            padding: 12px 20px;
-            box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.2);
-            border: 1px solid rgba(0, 240, 255, 0.1);
+            gap: 10px;
         }
-        .progress-bar {
-            flex: 1;
-            height: 14px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 7px;
+
+        .progress-percentage {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--neon-blue);
+            text-shadow: 0 0 20px rgba(0, 153, 255, 0.5);
+        }
+
+        .progress-bar-container {
+            position: relative;
+            height: 20px;
+            background: var(--accent-bg);
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: inset 0 1px 3px var(--bg-dark);
+            border: 1px solid var(--glass-border);
         }
-        .progress-fill {
+
+        .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, var(--accent-green) 0%, var(--accent-green-dark) 100%);
-            border-radius: 7px;
-            transition: width 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 0 10px var(--accent-green);
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+            border-radius: 10px;
+            transition: width 0.8s ease;
+            position: relative;
+            overflow: hidden;
         }
-        .progress-text {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--primary-glow);
-            min-width: 80px;
-            text-align: right;
-            text-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shine 2s infinite;
         }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Main Layout */
         .main-layout {
             display: grid;
-            grid-template-columns: 1fr 380px;
-            gap: 30px;
-            margin-bottom: 30px;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            padding: 0 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
+
+        /* Week Cards */
         .weeks-container {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 1.5rem;
         }
+
         .week-card {
-            animation: slideInLeft 0.6s ease-out forwards;
-            opacity: 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
         }
-        .week-card:nth-child(1) { animation-delay: 0.1s; }
-        .week-card:nth-child(2) { animation-delay: 0.2s; }
-        .week-card:nth-child(3) { animation-delay: 0.3s; }
-        .week-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .week-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 255, 65, 0.15);
+            border-color: var(--neon-green);
+        }
+
         .week-header {
-            padding: 20px 25px;
+            padding: 1.5rem;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0, 240, 255, 0.05);
-            border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+            background: linear-gradient(135deg, var(--glass-bg), transparent);
+            border-bottom: 1px solid var(--glass-border);
             transition: all 0.3s ease;
         }
-        .week-header:hover { background: rgba(0, 240, 255, 0.1); }
+
+        .week-header:hover {
+            background: linear-gradient(135deg, rgba(0, 255, 65, 0.1), transparent);
+        }
+
         .week-title {
             font-size: 1.4rem;
             font-weight: 600;
-            color: var(--text-light);
+            color: var(--text-primary);
             display: flex;
             align-items: center;
             gap: 10px;
-            font-family: 'Orbitron', sans-serif;
         }
-        .week-title i { color: var(--primary-glow); text-shadow: 0 0 5px var(--primary-glow); }
+
+        .week-icon {
+            color: var(--neon-green);
+            font-size: 1.2rem;
+        }
+
         .week-progress {
             display: flex;
             align-items: center;
             gap: 15px;
         }
+
         .week-progress-bar {
-            width: 120px;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 5px;
+            width: 100px;
+            height: 8px;
+            background: var(--accent-bg);
+            border-radius: 4px;
             overflow: hidden;
-            box-shadow: inset 0 0 5px rgba(0, 240, 255, 0.2);
         }
+
         .week-progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--accent-green) 0%, var(--accent-green-dark) 100%);
-            border-radius: 5px;
-            transition: width 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 0 8px var(--accent-green);
+            background: linear-gradient(90deg, var(--neon-orange), var(--neon-red));
+            border-radius: 4px;
+            transition: width 0.6s ease;
         }
+
         .week-percentage {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--accent-green);
-            min-width: 45px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--neon-blue);
+            min-width: 40px;
             text-align: right;
-            text-shadow: 0 0 5px var(--accent-green);
         }
+
         .expand-icon {
-            font-size: 1.3rem;
-            color: var(--text-dark);
-            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
         }
-        .week-card.expanded .expand-icon { transform: rotate(180deg); color: var(--primary-glow); }
+
+        .week-card.expanded .expand-icon {
+            transform: rotate(180deg);
+            color: var(--neon-green);
+        }
+
+        /* Tasks */
         .tasks-container {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.5s ease-in-out;
+            transition: max-height 0.5s ease;
         }
-        .week-card.expanded .tasks-container { max-height: 1000px; }
-        .task-list { padding: 20px 25px; padding-top: 0; }
+
+        .week-card.expanded .tasks-container {
+            max-height: 1000px;
+        }
+
+        .task-list {
+            padding: 1.5rem;
+        }
+
         .task-item {
             display: flex;
             align-items: center;
             gap: 15px;
-            padding: 15px 0;
-            border-bottom: 1px dashed rgba(255,255,255,0.05);
+            padding: 12px 0;
+            border-bottom: 1px solid var(--glass-border);
             transition: all 0.3s ease;
         }
-        .task-item:last-child { border-bottom: none; }
+
+        .task-item:last-child {
+            border-bottom: none;
+        }
+
         .task-item:hover {
-            background: rgba(0, 240, 255, 0.05);
-            border-radius: 8px;
-            padding-left: 10px;
-            padding-right: 10px;
+            background: rgba(0, 255, 65, 0.05);
+            transform: translateX(5px);
         }
+
         .task-status {
-            width: 18px;
-            height: 18px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
             flex-shrink: 0;
+            position: relative;
         }
-        .task-status.not-started { background: #64748b; border-color: #94a3b8; }
+
+        .task-status::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .task-status.not-started {
+            background: var(--text-muted);
+            border: 2px solid var(--text-muted);
+        }
+
         .task-status.in-progress {
             background: var(--neon-orange);
-            border-color: var(--neon-orange-dark);
-            box-shadow: 0 0 12px var(--neon-glow-orange), 0 0 20px var(--neon-glow-orange);
-            animation: pulse-neon-orange 1.5s infinite ease-in-out;
+            border: 2px solid var(--neon-orange);
+            box-shadow: 0 0 15px rgba(255, 102, 0, 0.5);
+            animation: pulse-orange 2s infinite;
         }
+
         .task-status.completed {
-            background: var(--accent-green);
-            border-color: var(--accent-green-dark);
-            box-shadow: 0 0 8px var(--accent-green);
+            background: var(--neon-green);
+            border: 2px solid var(--neon-green);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
         }
-        @keyframes pulse-neon-orange {
-            0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 12px var(--neon-glow-orange), 0 0 20px var(--neon-glow-orange); }
-            50% { transform: scale(1.1); opacity: 0.8; box-shadow: 0 0 20px var(--neon-glow-orange), 0 0 30px var(--neon-glow-orange); }
+
+        .task-status.completed::after {
+            background: var(--primary-bg);
         }
-        .task-text { flex: 1; font-size: 1rem; color: var(--text-medium); }
-        .sidebar { display: flex; flex-direction: column; gap: 20px; }
-        .sidebar-card { animation: slideInRight 0.6s ease-out forwards; opacity: 0; }
-        .sidebar-card:nth-child(1) { animation-delay: 0.5s; }
-        .sidebar-card:nth-child(2) { animation-delay: 0.6s; }
-        .sidebar-card h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--primary-glow);
-            margin-bottom: 20px;
+
+        @keyframes pulse-orange {
+            0%, 100% { box-shadow: 0 0 15px rgba(255, 102, 0, 0.5); }
+            50% { box-shadow: 0 0 25px rgba(255, 102, 0, 0.8); }
+        }
+
+        .task-text {
+            flex: 1;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 400;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .sidebar-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 153, 255, 0.1);
+        }
+
+        .sidebar-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--neon-blue);
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            gap: 12px;
-            text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+            gap: 10px;
         }
-        .sidebar-card h3 i { color: var(--primary-glow); font-size: 1.5rem; }
+
+        .sidebar-icon {
+            color: var(--neon-green);
+        }
+
         .stat-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 10px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            transition: background-color 0.2s ease;
+            border-bottom: 1px solid var(--glass-border);
         }
-        .stat-item:last-child { border-bottom: none; }
-        .stat-item:hover {
-            background-color: rgba(0, 240, 255, 0.05);
-            border-radius: 5px;
-            padding-left: 5px;
-            padding-right: 5px;
+
+        .stat-item:last-child {
+            border-bottom: none;
         }
-        .stat-label { font-size: 0.95rem; color: var(--text-dark); }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
         .stat-value {
-            font-family: '_ball Mono', monospace;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--primary-glow);
-            text-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--neon-green);
         }
+
         .resource-link {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 12px 18px;
-            background: var(--bg-light);
+            gap: 12px;
+            padding: 12px 15px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 10px;
-            color: var(--text-light);
+            color: var(--text-primary);
             text-decoration: none;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             transition: all 0.3s ease;
-            border: 1px solid var(--border-techy);
-            box-shadow: 0 2px 8px rgba(0, 240, 255, 0.05);
         }
+
         .resource-link:hover {
-            background: rgba(0, 240, 255, 0.1);
-            border-color: var(--primary-glow);
-            transform: translateX(8px);
-            box-shadow: 0 4px 16px rgba(0, 240, 255, 0.15);
+            background: rgba(0, 255, 65, 0.1);
+            border-color: var(--neon-green);
+            transform: translateX(5px);
         }
-        .resource-link i { color: var(--secondary-glow); text-shadow: 0 0 5px var(--secondary-glow); }
-        .resource-link:last-child { margin-bottom: 0; }
-        .bottom-section { animation: fadeIn 1s ease-out 0.7s forwards; opacity: 0; }
-        .bottom-section h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary-glow);
-            margin-bottom: 25px;
+
+        .resource-link i {
+            color: var(--neon-blue);
+        }
+
+        /* Summary Section */
+        .summary-section {
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .summary-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--neon-purple);
             text-align: center;
-            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+            margin-bottom: 2rem;
+            font-family: 'Orbitron', monospace;
         }
+
         .summary-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
-        .summary-item {
-            background: var(--bg-light);
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid var(--border-techy);
-            box-shadow: 0 4px 16px rgba(0, 240, 255, 0.05);
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out;
+
+        .summary-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
         }
-        .summary-item:hover {
-            transform: translateY(-8px) scale(1.01);
-            box-shadow: 0 12px 28px rgba(0, 240, 255, 0.15), inset 0 0 10px rgba(0, 240, 255, 0.1);
-            border-color: var(--primary-glow);
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(204, 0, 255, 0.15);
+            border-color: var(--neon-purple);
         }
-        .summary-item h4 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--primary-glow);
-            margin-bottom: 12px;
+
+        .summary-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--neon-orange);
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            gap: 8px;
-            text-shadow: 0 0 5px rgba(0, 240, 255, 0.4);
+            gap: 10px;
         }
-        .summary-item h4 i { color: var(--secondary-glow); font-size: 1.1em; text-shadow: 0 0 5px var(--secondary-glow); }
-        .summary-item p { font-size: 0.95rem; color: var(--text-medium); line-height: 1.6; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        .summary-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
         }
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-50px); }
-            to { opacity: 1; transform: translateX(0); }
+
+        .summary-card ul {
+            list-style: none;
+            padding: 0;
         }
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
+
+        .summary-card li {
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
         }
+
+        .summary-card li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: var(--neon-green);
+        }
+
+        /* Responsive Design */
         @media (max-width: 1024px) {
-            .main-layout { grid-template-columns: 1fr; gap: 25px; }
-            .sidebar { order: -1; }
-            .header h1 { font-size: 2.2rem; }
+            .main-layout {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .sidebar {
+                order: -1;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
         }
+
         @media (max-width: 768px) {
-            .container { padding: 15px; }
-            .header { padding: 25px; }
-            .header h1 { font-size: 1.8rem; }
-            .overall-progress { flex-direction: column; align-items: stretch; gap: 15px; }
-            .summary-grid { grid-template-columns: 1fr; }
-            .week-header { flex-direction: column; align-items: flex-start; gap: 10px; }
-            .week-progress { width: 100%; justify-content: space-between; }
-            .week-progress-bar { flex: 1; }
-            .week-percentage { min-width: unset; }
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .progress-section,
+            .main-layout,
+            .summary-section {
+                padding: 1rem;
+            }
+            
+            .week-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .week-progress {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .week-progress-bar {
+                flex: 1;
+            }
         }
-        @media (max-width: 480px) {
-            .header h1 { font-size: 1.5rem; }
-            .header p { font-size: 1rem; }
-            .sidebar-card h3, .bottom-section h2 { font-size: 1.5rem; }
-            .summary-item h4 { font-size: 1.1rem; }
-            .task-text { font-size: 0.9rem; }
+
+        /* Loading Animation */
+        .loading-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-animation.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--accent-bg);
+            border-top: 3px solid var(--neon-green);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header card-base">
-            <h1><i class="fas fa-shield-alt"></i> Detecting Encrypted Command-and-Control [C2] Communications Using Light Weight Machine Learning Models </h1>
-            <p>Master's Dissertation Progress Tracker</p>
-            <div class="overall-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="overallProgress"></div>
-                </div>
-                <div class="progress-text" id="overallPercentage">0%</div>
-            </div>
-        </div>
-        <div class="main-layout">
-            <div class="weeks-container" id="weeksContainer"></div>
-            <div class="sidebar">
-                <div class="sidebar-card card-base">
-                    <h3><i class="fas fa-chart-bar"></i> Quick Stats</h3>
-                    <div class="stat-item">
-                        <span class="stat-label">Total Tasks</span>
-                        <span class="stat-value" id="totalTasks">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Completed</span>
-                        <span class="stat-value" id="completedTasks">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">In Progress</span>
-                        <span class="stat-value" id="inProgressTasks">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Remaining</span>
-                        <span class="stat-value" id="remainingTasks">0</span>
-                    </div>
-                </div>
-                <div class="sidebar-card card-base">
-                    <h3><i class="fas fa-link"></i> Resources</h3>
-                    <a href="https://github.com/parthbhagat1337/portfolio/tree/main/ResearchPapers-C2server" class="resource-link"><i class="fas fa-book-open"></i> Research Papers</a>
-                    <a href="#" class="resource-link"><i class="fas fa-tools"></i> Tools & Software</a>
-                    <a href="http://205.174.165.73:8182/CICHoneynet_Dataset/2023/CICHoneynet2023.tar.xz" class="resource-link"><i class="fas fa-database"></i> Datasets</a>
-                    <a href="https://github.com/parthbhagat1337/portfolio/blob/main/DissertationResources/LiteratureSurveysummary.pdf" class="resource-link"><i class="fas fa-clipboard-list"></i> Literature Summary</a>
-                    <a href="#" class="resource-link"><i class="fas fa-code-branch"></i> Code Repository</a>
-                </div>
-            </div>
-        </div>
-        <div class="bottom-section card-base">
-            <h2><i class="fas fa-clipboard-check"></i> Dissertation Summary</h2>
-            <div class="summary-grid">
-                <div class="summary-item">
-                    <h4><i class="fas fa-bullseye"></i> Research Objective</h4>
-                    <p>The objective of this research is to develop and evaluate machine learning models that can detect Command-and-Control (C2) communication in network traffic using flow-based and timing-based features. 
-                        My aim is to create synthetic datasets by simulating C2 traffic in a controlled lab environment, extract useful network features, and test different ML models to find which ones work best. 
-                        This study also explores whether lightweight models can be used for real-time C2 detection on low-resource devices, and how well synthetic data performs compared to real-world scenarios.</p>
-                </div>
-               <div class="summary-item">
-                    <h4><i class="fas fa-question-circle"></i> Key Research Questions</h4>
-                        <ul>
-                            <p>1. Which network features (e.g., flow-based, timing-based, protocol metadata) are most predictive for distinguishing C2 communication from legitimate traffic?</p>
-                            
-                            <p>2. Can synthetic datasets generated in a lab environment provide reliable training data for real-world C2 detection?</p>
-                            
-                            <p>3. Which machine learning models perform best in detecting C2 communication in synthetic network traffic?</p>
-                            
-                            <p>4. Can lightweight ML models be deployed for real-time detection of C2 on low-resource edge devices or routers?</p>
-                        </ul>
-                </div>
+    <!-- Loading Animation -->
+    <div class="loading-animation" id="loadingAnimation">
+        <div class="loader"></div>
+    </div>
 
-                <div class="summary-item">
-                    <h4><i class="fas fa-flask"></i> Methodology</h4>
-                    <p>A virtual lab environment is created to simulate both normal and C2 network traffic. The traffic is captured, labeled, and used to build a synthetic dataset. 
-                        Important features such as flow size, timing patterns, and protocol information are extracted from the data. 
-                        Multiple machine learning models are trained and tested on this dataset to detect C2 communication. 
-                        Lightweight models are also evaluated for their ability to run on low-resource devices while maintaining good detection accuracy.</p>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="matrix-bg"></div>
+        <div class="network-lines"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <h1><i class="fas fa-shield-alt"></i> Detecting Encrypted Command-and-Control [C2] Communications</h1>
+        <p class="subtitle">Using Light Weight Machine Learning Modelss</p>
+        <p class="research-focus">Master's Dissertation Progress Tracker</p>
+    </header>
+
+    <!-- Progress Section -->
+    <div class="progress-section">
+        <div class="overall-progress">
+            <div class="progress-header">
+                <div class="progress-title">
+                    <i class="fas fa-chart-line"></i>
+                    Research Progress
                 </div>
-                <div class="summary-item">
-                    <h4><i class="fas fa-star"></i> Expected Contributions</h4>
-                    <p>A synthetic dataset containing labeled C2 and normal network traffic generated in a controlled lab environment.</p>
-                    
-                    <p>A comparison of different machine learning models for detecting C2 communication using flow-based and timing-based features.</p>
-                    
-                    <p>Insights into which features are most effective for identifying C2 traffic.</p>
-                    
-                    <p>Evaluation of lightweight ML models for potential use in real-time C2 detection on low-resource or edge devices.</p>
-                    
-                    <p>A practical methodology that can be reused or extended for future C2 detection research.</p>
-                </div>
+                <div class="progress-percentage" id="overallPercentage">0%</div>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="overallProgressBar"></div>
             </div>
         </div>
     </div>
+
+    <!-- Main Layout -->
+    <div class="main-layout">
+        <!-- Weeks Container -->
+        <div class="weeks-container" id="weeksContainer">
+            <!-- Week cards will be populated by JavaScript -->
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-card">
+                <h3 class="sidebar-title">
+                    <i class="fas fa-analytics sidebar-icon"></i>
+                    Quick Stats
+                </h3>
+                <div class="stat-item">
+                    <span class="stat-label">Total Tasks</span>
+                    <span class="stat-value" id="totalTasks">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Completed</span>
+                    <span class="stat-value" id="completedTasks">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">In Progress</span>
+                    <span class="stat-value" id="inProgressTasks">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Remaining</span>
+                    <span class="stat-value" id="remainingTasks">0</span>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <h3 class="sidebar-title">
+                    <i class="fas fa-link sidebar-icon"></i>
+                    Research Resources
+                </h3>
+                <a href="https://github.com/parthbhagat1337/portfolio/tree/main/ResearchPapers-C2server" class="resource-link">
+                    <i class="fas fa-book-open"></i>
+                    Research Papers
+                </a>
+                <a href="#" class="resource-link">
+                    <i class="fas fa-tools"></i>
+                    ML Tools & Frameworks
+                </a>
+                <a href="http://205.174.165.73:8182/CICHoneynet_Dataset/2023/CICHoneynet2023.tar.xz" class="resource-link">
+                    <i class="fas fa-database"></i>
+                    Network Datasets
+                </a>
+                <a href="https://github.com/parthbhagat1337/portfolio/blob/main/DissertationResources/LiteratureSurveysummary.pdf" class="resource-link">
+                    <i class="fas fa-file-alt"></i>
+                    Literature Survey
+                </a>
+                <a href="#" class="resource-link">
+                    <i class="fas fa-code"></i>
+                    Code Repository
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Section -->
+    <div class="summary-section">
+        <h2 class="summary-title">
+            <i class="fas fa-microscope"></i>
+            Research Overview
+        </h2>
+        <div class="summary-grid">
+            <div class="summary-card">
+                <h3><i class="fas fa-bullseye"></i> Research Objective</h3>
+                <p>Develop and evaluate lightweight machine learning models to detect Command-and-Control (C2) communications in encrypted network traffic. Focus on flow-based and timing-based features for real-time detection on resource-constrained devices.</p>
+            </div>
+            <div class="summary-card">
+                <h3><i class="fas fa-question-circle"></i> Key Questions</h3>
+                <ul>
+                    <li>Which network features best distinguish C2 from legitimate traffic?</li>
+                    <li>Can synthetic datasets effectively train real-world C2 detectors?</li>
+                    <li>Which ML models excel at encrypted C2 detection?</li>
+                    <li>Can we enable real-time detection on edge devices?</li>
+                </ul>
+            </div>
+            <div class="summary-card">
+                <h3><i class="fas fa-flask"></i> Methodology</h3>
+                <p>Virtual lab simulation of C2 and legitimate traffic, synthetic dataset creation, feature extraction (flow patterns, timing, metadata), multiple ML model training and evaluation, with focus on lightweight models for edge deployment.</p>
+            </div>
+            <div class="summary-card">
+                <h3><i class="fas fa-trophy"></i> Expected Impact</h3>
+                <ul>
+                    <li>Labeled synthetic C2 traffic dataset</li>
+                    <li>Comparative ML model analysis for C2 detection</li>
+                    <li>Key feature identification for encrypted C2 traffic</li>
+                    <li>Real-time edge device detection capability</li>
+                    <li>Reusable research methodology framework</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <script>
-        const weekData = {
-            1: {
-                title: "Week 1: Research Foundation and Preparation",
-                tasks: [
-                    { text: "Finalize Research Title", status: "completed" },
-                    { text: "Collect Research papers ", status: "completed" },
-                    { text: "Conduct Literature Survey (15-20 Research Papers)", status: "completed" },
-                    { text: "Summarize Literature Gaps", status: "completed" },
-                    { text: "Define Objectives and Research Questions", status: "completed" },
-                    { text: "Research Tools And Techniques", status: "completed" }
-                ]
-            },
-            2: {
-                title: "Week 2: Dataset Collection and Simulation",
-                tasks: [
-                    { text: "Setup Lab Enviroment", status: "completed" },
-                    { text: "Test Lab", status: "in-progress" },
-                    { text: "Capture C2 vs Normal Traffic", status: "not-started" },
-                    { text: "Decide and Analyze Traffic to use", status: "not-started" },
-                    { text: "Create Synthetic Dataset (Virtual Lab)", status: "not-started" },
-                    { text: "Extract Network Metadata", status: "not-started" },
-                    { text: "Preprocess and Clean Data", status: "not-started" },
-                    { text: "Document Data Collection Process", status: "not-started" }
-                ]
-            },
-            3: {
-                title: "Week 3: Model Training and Evaluation",
-                tasks: [
-                    { text: "Select ML Algorithms for Detection", status: "not-started" },
-                    { text: "Implement ML Models in Python", status: "not-started" },
-                    { text: "Creating Code in Python", status: "not-started" },
-                    { text: "Evaluate Models", status: "not-started" },
-                    { text: "Compare with Baseline or Random Classifier", status: "not-started" },
-                    { text: "Analyze Feature Importance and Output", status: "not-started" },
-                    { text: "Summarize Writing Methodology Chapter", status: "not-started" },
-                    { text: "Summarize Writing Results Chapter", status: "not-started" }
-                ]
-            },
-            4: {
-                title: "Week 4: Finalization and Documentation",
-                tasks: [
-                    { text: "Preparing Template for report", status: "not-started" },
-                    { text: "Writing Things Completed", status: "not-started" },
-                    { text: "Complete System Design and Implementation Section", status: "not-started" },
-                    { text: "Write Full Results and Analysis Section", status: "not-started" },
-                    { text: "Write Discussion Section", status: "not-started" },
-                    { text: "Write Conclusion Chapter", status: "not-started" },
-                    { text: "Compile References and Citation", status: "not-started" },
-                    { text: "Proofread & Polish the Dissertation", status: "not-started" },
-                    { text: "Backup and Prepare for Submission", status: "not-started" }
-                ]
-            }
-        };
-        function calculateWeekProgress(week) {
-            const tasks = weekData[week].tasks;
-            const completed = tasks.filter(task => task.status === 'completed').length;
-            return Math.round((completed / tasks.length) * 100);
-        }
-        function calculateOverallProgress() {
-            let totalTasks = 0;
-            let completedTasks = 0;
-            let inProgressTasks = 0;
-            for (let week in weekData) {
-                totalTasks += weekData[week].tasks.length;
-                weekData[week].tasks.forEach(task => {
-                    if (task.status === 'completed') {
-                        completedTasks++;
-                    } else if (task.status === 'in-progress') {
-                        inProgressTasks++;
-                    }
-                });
-            }
-            const overallCompletionPercentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
-            const actualRemaining = totalTasks - completedTasks - inProgressTasks;
-            return {
-                overallCompletionPercentage: overallCompletionPercentage,
-                totalTasks: totalTasks,
-                completedTasks: completedTasks,
-                inProgressTasks: inProgressTasks,
-                remainingTasks: actualRemaining
-            };
-        }
-        function updateStats() {
-            const stats = calculateOverallProgress();
-            document.getElementById('totalTasks').textContent = stats.totalTasks;
-            document.getElementById('completedTasks').textContent = stats.completedTasks;
-            document.getElementById('inProgressTasks').textContent = stats.inProgressTasks;
-            document.getElementById('remainingTasks').textContent = stats.remainingTasks;
-            document.getElementById('overallProgress').style.width = stats.overallCompletionPercentage + '%';
-            document.getElementById('overallPercentage').textContent = stats.overallCompletionPercentage + '%';
-        }
-        function toggleWeek(weekNumber) {
-            const weekCard = document.querySelector(`[data-week="${weekNumber}"]`);
-            weekCard.classList.toggle('expanded');
-        }
-        function renderWeeks() {
-            const container = document.getElementById('weeksContainer');
-            container.innerHTML = '';
-            for (let week in weekData) {
-                const weekProgress = calculateWeekProgress(week);
-                const weekCard = document.createElement('div');
-                weekCard.className = 'week-card card-base';
-                weekCard.setAttribute('data-week', week);
-                weekCard.innerHTML = `
-                    <div class="week-header" onclick="toggleWeek(${week})">
-                        <div class="week-title"><i class="fas fa-calendar-alt"></i> ${weekData[week].title}</div>
-                        <div class="week-progress">
-                            <div class="week-progress-bar">
-                                <div class="week-progress-fill" style="width: ${weekProgress}%"></div>
-                            </div>
-                            <div class="week-percentage">${weekProgress}%</div>
-                            <div class="expand-icon"><i class="fas fa-chevron-down"></i></div>
-                        </div>
-                    </div>
-                    <div class="tasks-container">
-                        <div class="task-list">
-                            ${weekData[week].tasks.map(task => `
-                                <div class="task-item">
-                                    <div class="task-status ${task.status}"></div>
-                                    <div class="task-text">${task.text}</div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-                container.appendChild(weekCard);
-            }
-        }
-        document.addEventListener('DOMContentLoaded', function() {
-            renderWeeks();
-            updateStats();
+        // Week data - Update this object to modify your research progress
+const weekData = {
+    1: {
+        title: "Research Foundation & Literature Review",
+        icon: "fas fa-book-open",
+        tasks: [
+            { text: "Finalize Research Title & Scope", status: "completed" },
+            { text: "Collect C2 Communication Research Papers(20 Research Papers)", status: "completed" },
+            { text: "Conduct Comprehensive Literature Survey", status: "completed" },
+            { text: "Identify Research Gaps & Opportunities", status: "completed" },
+            { text: "Define Research Questions & Objectives", status: "completed" },
+            { text: "Survey ML Tools & Network Analysis Frameworks", status: "completed" }
+        ]
+    },
+    2: {
+        title: "Lab Setup & Dataset Creation",
+        icon: "fas fa-network-wired",
+        tasks: [
+            { text: "Design Virtual Lab Architecture", status: "completed" },
+            { text: "Deploy C2 Server Infrastructure", status: "in-progress" },
+            { text: "Configure Network Traffic Monitoring", status: "not-started" },
+            { text: "Generate C2 vs Normal Traffic Samples", status: "not-started" },
+            { text: "Extract Network Flow Features", status: "not-started" },
+            { text: "Create Labeled Training Dataset", status: "not-started" },
+            { text: "Validate Data Quality & Balance", status: "not-started" },
+            { text: "Document Data Collection Methodology", status: "not-started" }
+        ]
+    },
+    3: {
+        title: "ML Model Development & Training",
+        icon: "fas fa-robot",
+        tasks: [
+            { text: "Select ML Algorithms (RF, SVM, NN)", status: "not-started" },
+            { text: "Implement Feature Engineering Pipeline", status: "not-started" },
+            { text: "Develop Model Training Framework", status: "not-started" },
+            { text: "Train & Optimize ML Models", status: "not-started" },
+            { text: "Evaluate Model Performance Metrics", status: "not-started" },
+            { text: "Conduct Feature Importance Analysis", status: "not-started" },
+            { text: "Optimize for Edge Device Deployment", status: "not-started" },
+            { text: "Compare Against Baseline Methods", status: "not-started" }
+        ]
+    },
+    4: {
+        title: "Analysis & Documentation",
+        icon: "fas fa-chart-bar",
+        tasks: [
+            { text: "Compile Research Findings", status: "not-started" },
+            { text: "Write Methodology Chapter", status: "not-started" },
+            { text: "Document Experimental Results", status: "not-started" },
+            { text: "Create Performance Visualizations", status: "not-started" },
+            { text: "Write Discussion & Analysis", status: "not-started" },
+            { text: "Prepare Conclusions & Future Work", status: "not-started" },
+            { text: "Compile References & Citations", status: "not-started" },
+            { text: "Final Proofreading & Submission", status: "not-started" }
+        ]
+    }
+};
+
+// Calculate progress functions
+function calculateWeekProgress(week) {
+    const tasks = weekData[week].tasks;
+    const completed = tasks.filter(task => task.status === 'completed').length;
+    return Math.round((completed / tasks.length) * 100);
+}
+
+function calculateOverallProgress() {
+    let totalTasks = 0;
+    let completedTasks = 0;
+    let inProgressTasks = 0;
+
+    for (let week in weekData) {
+        totalTasks += weekData[week].tasks.length;
+        weekData[week].tasks.forEach(task => {
+            if (task.status === 'completed') completedTasks++;
+            else if (task.status === 'in-progress') inProgressTasks++;
         });
+    }
+
+    const overallCompletionPercentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+    return {
+        overallCompletionPercentage,
+        totalTasks,
+        completedTasks,
+        inProgressTasks,
+        remainingTasks: totalTasks - completedTasks - inProgressTasks
+    };
+}
+
+// Update statistics
+function updateStats() {
+    const stats = calculateOverallProgress();
+    document.getElementById('totalTasks').textContent = stats.totalTasks;
+    document.getElementById('completedTasks').textContent = stats.completedTasks;
+    document.getElementById('inProgressTasks').textContent = stats.inProgressTasks;
+    document.getElementById('remainingTasks').textContent = stats.remainingTasks;
+    
+    // Update progress bar
+    document.getElementById('overallProgressBar').style.width = stats.overallCompletionPercentage + '%';
+    document.getElementById('overallPercentage').textContent = stats.overallCompletionPercentage + '%';
+}
+
+// Toggle week expansion
+function toggleWeek(weekNumber) {
+    const weekCard = document.querySelector(`[data-week="${weekNumber}"]`);
+    weekCard.classList.toggle('expanded');
+}
+
+// Render week cards
+function renderWeeks() {
+    const container = document.getElementById('weeksContainer');
+    container.innerHTML = '';
+
+    for (let week in weekData) {
+        const weekProgress = calculateWeekProgress(week);
+        const weekCard = document.createElement('div');
+        weekCard.className = 'week-card';
+        weekCard.setAttribute('data-week', week);
+        
+        weekCard.innerHTML = `
+            <div class="week-header" onclick="toggleWeek(${week})">
+                <div class="week-title">
+                    <i class="week-icon ${weekData[week].icon}"></i>
+                    Week ${week}: ${weekData[week].title}
+                </div>
+                <div class="week-progress">
+                    <div class="week-progress-bar">
+                        <div class="week-progress-fill" style="width: ${weekProgress}%"></div>
+                    </div>
+                    <div class="week-percentage">${weekProgress}%</div>
+                    <div class="expand-icon">
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="tasks-container">
+                <div class="task-list">
+                    ${weekData[week].tasks.map(task => `
+                        <div class="task-item">
+                            <div class="task-status ${task.status}"></div>
+                            <div class="task-text">${task.text}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+        
+        container.appendChild(weekCard);
+    }
+}
+
+// Matrix rain effect
+function createMatrixRain() {
+    const canvas = document.createElement('canvas');
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.pointerEvents = 'none';
+    canvas.style.zIndex = '-1';
+    canvas.style.opacity = '0.1';
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+    const charArray = chars.split('');
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = [];
+
+    for (let i = 0; i < columns; i++) {
+        drops[i] = 1;
+    }
+
+    function draw() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = '#00ff41';
+        ctx.font = fontSize + 'px monospace';
+
+        for (let i = 0; i < drops.length; i++) {
+            const text = charArray[Math.floor(Math.random() * charArray.length)];
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            drops[i]++;
+        }
+    }
+
+    setInterval(draw, 35);
+
+    // Resize handler
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+}
+
+// Floating particles effect
+function createFloatingParticles() {
+    const particleContainer = document.createElement('div');
+    particleContainer.style.position = 'fixed';
+    particleContainer.style.top = '0';
+    particleContainer.style.left = '0';
+    particleContainer.style.width = '100%';
+    particleContainer.style.height = '100%';
+    particleContainer.style.pointerEvents = 'none';
+    particleContainer.style.zIndex = '-1';
+    document.body.appendChild(particleContainer);
+
+    for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.style.position = 'absolute';
+        particle.style.width = '2px';
+        particle.style.height = '2px';
+        particle.style.backgroundColor = '#00ff41';
+        particle.style.borderRadius = '50%';
+        particle.style.opacity = Math.random();
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animation = `float ${5 + Math.random() * 10}s linear infinite`;
+        
+        const keyframes = `
+            @keyframes float {
+                0% { transform: translateY(0px) translateX(0px); }
+                25% { transform: translateY(-20px) translateX(10px); }
+                50% { transform: translateY(0px) translateX(-10px); }
+                75% { transform: translateY(20px) translateX(10px); }
+                100% { transform: translateY(0px) translateX(0px); }
+            }
+        `;
+        
+        if (!document.getElementById('particle-keyframes')) {
+            const style = document.createElement('style');
+            style.id = 'particle-keyframes';
+            style.textContent = keyframes;
+            document.head.appendChild(style);
+        }
+        
+        particleContainer.appendChild(particle);
+    }
+}
+
+// Initialize application
+function initializeApp() {
+    // Hide loading animation
+    setTimeout(() => {
+        document.getElementById('loadingAnimation').classList.add('hidden');
+    }, 1500);
+
+    // Render components
+    renderWeeks();
+    updateStats();
+    
+    // Create visual effects
+    createMatrixRain();
+    createFloatingParticles();
+    
+    // Add scroll animations
+    addScrollAnimations();
+}
+
+// Scroll animations
+function addScrollAnimations() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animation = 'fadeIn 0.6s ease-out forwards';
+            }
+        });
+    }, observerOptions);
+
+    // Observe all cards
+    document.querySelectorAll('.week-card, .sidebar-card, .summary-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        observer.observe(card);
+    });
+}
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', initializeApp);
+
+// Add some extra CSS animations
+const additionalCSS = `
+    @keyframes fadeIn {
+        from { 
+            opacity: 0; 
+            transform: translateY(20px); 
+        }
+        to { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+    }
+    
+    .week-card, .sidebar-card, .summary-card {
+        animation: fadeIn 0.6s ease-out forwards;
+    }
+    
+    /* Cyber grid overlay */
+    .cyber-grid {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        background-image: 
+            linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
+        background-size: 50px 50px;
+        animation: grid-move 20s linear infinite;
+    }
+    
+    @keyframes grid-move {
+        0% { transform: translate(0, 0); }
+        100% { transform: translate(50px, 50px); }
+    }
+`;
+
+const style = document.createElement('style');
+style.textContent = additionalCSS;
+document.head.appendChild(style);
+
+// Add cyber grid
+const cyberGrid = document.createElement('div');
+cyberGrid.className = 'cyber-grid';
+document.body.appendChild(cyberGrid);
     </script>
 </body>
 </html>
