@@ -398,7 +398,7 @@
 <body>
     <div class="container">
         <div class="header card-base">
-            <h1><i class="fas fa-shield-alt"></i> Detecting Encrypted Command-and-Control [C2] Communications Using Machine Learning</h1>
+            <h1><i class="fas fa-shield-alt"></i> Detecting Encrypted Command-and-Control [C2] Communications Using Light Weight Machine Learning Models </h1>
             <p>Master's Dissertation Progress Tracker</p>
             <div class="overall-progress">
                 <div class="progress-bar">
@@ -446,10 +446,16 @@
                     <h4><i class="fas fa-bullseye"></i> Research Objective</h4>
                     <p>Develop and evaluate machine learning models for detecting Command and Control (C2) communication patterns in network traffic using metadata-based features.</p>
                 </div>
-                <div class="summary-item">
-                    <h4><i class="fas fa-question-circle"></i> Key Research Question</h4>
-                    <p>Can machine learning effectively differentiate between normal and C2 traffic based on metadata without relying on payload inspection?</p>
+               <div class="summary-item">
+                    <h4><i class="fas fa-question-circle"></i> Key Research Questions</h4>
+                    <ul>
+                        <li>Which network features (e.g., flow-based, timing-based, protocol metadata) are most predictive for distinguishing C2 communication from legitimate traffic?</li>
+                        <li>Can synthetic datasets generated in a lab environment provide reliable training data for real-world C2 detection?</li>
+                        <li>Which machine learning models perform best in detecting C2 communication in synthetic network traffic?</li>
+                        <li>Can lightweight ML models be deployed for real-time detection of C2 on low-resource edge devices or routers?</li>
+                    </ul>
                 </div>
+
                 <div class="summary-item">
                     <h4><i class="fas fa-flask"></i> Methodology</h4>
                     <p>Comparative analysis of Decision Tree, Random Forest, and SVM algorithms using synthetic data from controlled lab environments.</p>
