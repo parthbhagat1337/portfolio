@@ -633,28 +633,146 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* Mind Map Specific Styles */
+        .mindmap-section {
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .mindmap-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-purple), var(--neon-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(204, 0, 255, 0.5);
+            margin-bottom: 2rem;
+            animation: glow-purple 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow-purple {
+            from { text-shadow: 0 0 30px rgba(204, 0, 255, 0.5); }
+            to { text-shadow: 0 0 40px rgba(204, 0, 255, 0.8), 0 0 50px rgba(255, 102, 0, 0.3); }
+        }
+
+        .mindmap-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Align to start for tree-like structure */
+            padding: 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+            overflow-x: auto; /* Allow horizontal scrolling for wide mindmaps */
+        }
+
+        .mindmap-node {
+            position: relative;
+            margin-bottom: 1.5rem;
+            padding-left: 30px; /* Space for connecting lines */
+            text-align: left;
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: fadeInRight 0.5s ease-out forwards;
+        }
+
+        .mindmap-node.level-0 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--neon-green);
+            margin-bottom: 2.5rem;
+            align-self: center; /* Center the root node */
+            padding-left: 0;
+            transform: translateY(0);
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .mindmap-node.level-1 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--neon-blue);
+            margin-left: 0; /* Aligned with parent */
+            border-left: 2px solid var(--neon-blue);
+            padding-left: 20px;
+        }
+
+        .mindmap-node.level-2 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--neon-orange);
+            margin-left: 20px;
+            border-left: 2px solid var(--neon-orange);
+            padding-left: 20px;
+        }
+
+        .mindmap-node.level-3 {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-left: 40px;
+            border-left: 2px solid var(--text-muted);
+            padding-left: 20px;
+        }
+
+        .mindmap-node::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 15px;
+            height: 2px;
+            background: var(--neon-green);
+            transform: translateY(-50%);
+        }
+
+        .mindmap-node.level-0::before {
+            display: none; /* No incoming line for root */
+        }
+
+        .mindmap-node:not(.level-0) {
+            margin-top: 0.5rem;
+        }
+
+        .mindmap-node .icon {
+            margin-right: 10px;
+            color: var(--neon-green);
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Loading Animation -->
     <div class="loading-animation" id="loadingAnimation">
         <div class="loader"></div>
     </div>
 
-    <!-- Animated Background -->
     <div class="bg-animation">
         <div class="matrix-bg"></div>
         <div class="network-lines"></div>
     </div>
 
-    <!-- Header -->
     <header class="header">
         <h1><i class="fas fa-shield-alt"></i> Detecting Encrypted Command-and-Control [C2] Communications</h1>
-        <p class="subtitle">Using Light Weight Machine Learning Modelss</p>
+        <p class="subtitle">Using Light Weight Machine Learning Models</p>
         <p class="research-focus">Master's Dissertation Progress Tracker</p>
     </header>
 
-    <!-- Progress Section -->
     <div class="progress-section">
         <div class="overall-progress">
             <div class="progress-header">
@@ -670,14 +788,10 @@
         </div>
     </div>
 
-    <!-- Main Layout -->
     <div class="main-layout">
-        <!-- Weeks Container -->
         <div class="weeks-container" id="weeksContainer">
-            <!-- Week cards will be populated by JavaScript -->
-        </div>
+            </div>
 
-        <!-- Sidebar -->
         <div class="sidebar">
             <div class="sidebar-card">
                 <h3 class="sidebar-title">
@@ -731,7 +845,6 @@
         </div>
     </div>
 
-    <!-- Summary Section -->
     <div class="summary-section">
         <h2 class="summary-title">
             <i class="fas fa-microscope"></i>
@@ -766,6 +879,15 @@
                 </ul>
             </div>
         </div>
+    </div>
+
+    <div class="mindmap-section">
+        <h2 class="mindmap-title">
+            <i class="fas fa-brain"></i>
+            Dissertation Mind Map
+        </h2>
+        <div class="mindmap-container" id="mindmapContainer">
+            </div>
     </div>
 
     <script>
@@ -826,6 +948,167 @@ const weekData = {
         ]
     }
 };
+
+// Mind Map Data Structure
+const mindMapData = [
+    {
+        name: "Detecting Encrypted Command-and-Control [C2] Communications",
+        icon: "fas fa-shield-alt",
+        children: [
+            {
+                name: "1. Introduction",
+                icon: "fas fa-info-circle",
+                children: [
+                    { name: "Background on C2 communication" },
+                    { name: "Relevance of ML in cybersecurity" },
+                    { name: "Research problem & objectives" }
+                ]
+            },
+            {
+                name: "2. Literature Review",
+                icon: "fas fa-book",
+                children: [
+                    { name: "Traditional C2 detection techniques" },
+                    { name: "Modern C2 frameworks & evasion" },
+                    { name: "Machine Learning in intrusion detection" },
+                    { name: "Existing datasets for C2 traffic" },
+                    { name: "Gaps in current research" }
+                ]
+            },
+            {
+                name: "3. Methodology",
+                icon: "fas fa-flask",
+                children: [
+                    {
+                        name: "Environment Setup",
+                        children: [
+                            { name: "Virtual machines" },
+                            { name: "Network segmentation" },
+                            { name: "Logging infrastructure (e.g., Zeek, Wireshark)" }
+                        ]
+                    },
+                    {
+                        name: "C2 Frameworks Used",
+                        children: [
+                            { name: "Havoc" },
+                            { name: "Sliver (Optional)" }
+                        ]
+                    },
+                    {
+                        name: "Attack Simulation",
+                        children: [
+                            { name: "Payload deployment" },
+                            { name: "Data exfiltration" },
+                            { name: "Periodic beaconing" }
+                        ]
+                    },
+                    {
+                        name: "Data Collection",
+                        children: [
+                            { name: "Real network traffic (PCAP, NetFlow)" },
+                            { name: "Synthetic traffic generation (labelled)" }
+                        ]
+                    },
+                    {
+                        name: "Dataset Preprocessing",
+                        children: [
+                            { name: "Feature engineering (timing, size, protocol)" },
+                            { name: "Labeling (C2 traffic vs. benign)" },
+                            { name: "Balancing (oversampling/undersampling)" }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "4. Machine Learning Models",
+                icon: "fas fa-robot",
+                children: [
+                    {
+                        name: "Model Selection",
+                        children: [
+                            { name: "Random Forest" },
+                            { name: "SVM" },
+                            { name: "XGBoost" }
+                        ]
+                    },
+                    {
+                        name: "Training & Testing",
+                        children: [
+                            { name: "Cross-validation" },
+                            { name: "Metrics (Accuracy, Precision, Recall, F1, ROC-AUC)" }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "5. Results & Analysis",
+                icon: "fas fa-chart-line",
+                children: [
+                    { name: "Performance comparison of models" },
+                    { name: "Real vs. synthetic dataset performance" },
+                    { name: "Limitations of current approaches" }
+                ]
+            },
+            {
+                name: "6. GUI/Visualization Dashboard (Optional)",
+                icon: "fas fa-desktop",
+                children: [
+                    { name: "Attack timeline" },
+                    { name: "ML model training progress" },
+                ]
+            },
+            {
+                name: "7. Discussion",
+                icon: "fas fa-comments",
+                children: [
+                    { name: "Implications for blue team/defenders" },
+                    { name: "Limitations of ML in dynamic C2 detection" },
+                    { name: "Future directions (e.g., real-time detection, deep learning, federated learning)" }
+                ]
+            },
+            {
+                name: "8. Conclusion",
+                icon: "fas fa-check-circle",
+                children: [
+                    { name: "Summary of findings" },
+                    { name: "Contributions to research" },
+                    { name: "Recommendations" }
+                ]
+            },
+            {
+                name: "9. References",
+                icon: "fas fa-external-link-alt",
+                children: [
+                    { name: "~20 Research papers, tools, and datasets" }
+                ]
+            }
+        ]
+    }
+];
+
+// Function to render mind map
+function renderMindMap(data, parentElement, level = 0) {
+    data.forEach((node, index) => {
+        const nodeElement = document.createElement('div');
+        nodeElement.className = `mindmap-node level-${level}`;
+        if (level === 0) {
+            nodeElement.innerHTML = `<i class="${node.icon} icon"></i> ${node.name}`;
+        } else {
+            nodeElement.textContent = node.name;
+        }
+        nodeElement.style.animationDelay = `${index * 0.1 + (level * 0.2)}s`; // Staggered animation
+        parentElement.appendChild(nodeElement);
+
+        if (node.children && node.children.length > 0) {
+            const childrenContainer = document.createElement('div');
+            childrenContainer.className = 'mindmap-children';
+            nodeElement.appendChild(childrenContainer); // Append children container to the node
+
+            renderMindMap(node.children, childrenContainer, level + 1);
+        }
+    });
+}
+
 
 // Calculate progress functions
 function calculateWeekProgress(week) {
@@ -1029,6 +1312,9 @@ function initializeApp() {
     renderWeeks();
     updateStats();
     
+    // Render mind map
+    renderMindMap(mindMapData, document.getElementById('mindmapContainer'));
+
     // Create visual effects
     createMatrixRain();
     createFloatingParticles();
@@ -1052,8 +1338,8 @@ function addScrollAnimations() {
         });
     }, observerOptions);
 
-    // Observe all cards
-    document.querySelectorAll('.week-card, .sidebar-card, .summary-card').forEach(card => {
+    // Observe all cards and mindmap nodes
+    document.querySelectorAll('.week-card, .sidebar-card, .summary-card, .mindmap-node').forEach(card => {
         card.style.opacity = '0';
         card.style.transform = 'translateY(20px)';
         observer.observe(card);
