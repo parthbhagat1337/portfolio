@@ -856,26 +856,24 @@
                 <p>Develop and evaluate lightweight machine learning models to detect Command-and-Control (C2) communications in encrypted network traffic. Focus on flow-based and timing-based features for real-time detection on resource-constrained devices.</p>
             </div>
             <div class="summary-card">
-                <h3><i class="fas fa-question-circle"></i> Key Questions</h3>
+                <h3><i class="fas fa-question-circle"></i> Research Questions</h3>
                 <ul>
                     <li>Which network features best distinguish C2 from legitimate traffic?</li>
                     <li>Can synthetic datasets effectively train real-world C2 detectors?</li>
                     <li>Which ML models excel at encrypted C2 detection?</li>
-                    <li>Can we enable real-time detection on edge devices?</li>
                 </ul>
             </div>
             <div class="summary-card">
-                <h3><i class="fas fa-flask"></i> Methodology</h3>
-                <p>Virtual lab simulation of C2 and legitimate traffic, synthetic dataset creation, feature extraction (flow patterns, timing, metadata), multiple ML model training and evaluation, with focus on lightweight models for edge deployment.</p>
+                <h3><i class="fas fa-flask"></i> Research Methodology</h3>
+                <p>Public Dataset and Synthetic dataset gernerated in virtual lab simulation of C2 and legitimate traffic, feature extraction (flow patterns, timing, metadata), multiple ML model training and evaluation, with focus on lightweight models for edge deployment.</p>
             </div>
             <div class="summary-card">
-                <h3><i class="fas fa-trophy"></i> Expected Impact</h3>
+                <h3><i class="fas fa-trophy"></i> Expected Output</h3>
                 <ul>
                     <li>Labeled synthetic C2 traffic dataset</li>
                     <li>Comparative ML model analysis for C2 detection</li>
+                    <li>Analysis of a different C2 framework </li>
                     <li>Key feature identification for encrypted C2 traffic</li>
-                    <li>Real-time edge device detection capability</li>
-                    <li>Reusable research methodology framework</li>
                 </ul>
             </div>
         </div>
@@ -897,39 +895,40 @@ const weekData = {
         title: "Research Foundation & Literature Review",
         icon: "fas fa-book-open",
         tasks: [
-            { text: "Finalize Research Title & Scope", status: "completed" },
+            { text: "Finalize Research Topic & Scope", status: "completed" },
             { text: "Collect C2 Communication Research Papers(20 Research Papers)", status: "completed" },
+            { text: "Study C2 Communication Research Papers(20 Research Papers)", status: "completed" }
             { text: "Conduct Comprehensive Literature Survey", status: "completed" },
             { text: "Identify Research Gaps & Opportunities", status: "completed" },
             { text: "Define Research Questions & Objectives", status: "completed" },
-            { text: "Survey ML Tools & Network Analysis Frameworks", status: "completed" }
+            { text: "Survey Tools & Techniques required", status: "completed" }
         ]
     },
     2: {
         title: "Lab Setup & Dataset Creation",
         icon: "fas fa-network-wired",
         tasks: [
+            { text: "Find Public Dataset", status: "completed" },
             { text: "Design Virtual Lab Architecture", status: "completed" },
             { text: "Deploy C2 Server Infrastructure", status: "completed" },
             { text: "Configure Network Traffic Monitoring", status: "completed" },
-            { text: "Generate C2 vs Normal Traffic Samples", status: "in-progress" },
+            { text: "Generate C2 vs Normal Traffic Samples", status: "completed" },
             { text: "Extract Network Flow Features", status: "in-progress" },
-            { text: "Create Labeled Training Dataset", status: "not-started" },
-            { text: "Validate Data Quality & Balance", status: "not-started" },
-            { text: "Document Data Collection Methodology", status: "not-started" }
+            { text: "Create Labeled Training Dataset", status: "in-progress" },
+            { text: "Document Data Collection Methodology", status: "in-progress" }
         ]
     },
     3: {
         title: "ML Model Development & Training",
         icon: "fas fa-robot",
         tasks: [
-            { text: "Select ML Algorithms (e.g RF, SVM, NN)", status: "in-progress" },
-            { text: "Develop Model Training Framework", status: "not-started" },
-            { text: "Train & Optimize ML Models", status: "not-started" },
-            { text: "Evaluate Model Performance Metrics", status: "not-started" },
-            { text: "Conduct Feature Importance Analysis", status: "not-started" },
-            { text: "Optimize for Edge Device Deployment", status: "not-started" },
-            { text: "Compare Against Baseline Methods", status: "not-started" }
+            { text: "Select ML Algorithms (e.g LR, RF, XGBOOST)", status: "completed" },
+            { text: "Prepare Public and synthetic Dataset", status: "in-progress" },
+            { text: "Write ML code for public dataset", status: "completed" },
+            { text: "Train & Optimize ML model for public dataset", status: "completed" },
+            { text: "Study the output results for public dataset", status: "in-progress" },
+            { text: "Train & Optimize ML model for synthetic dataset", status: "not-started" },
+            { text: "Compare both and document the results", status: "not-started" }
         ]
     },
     4: {
@@ -979,11 +978,11 @@ const mindMapData = [
                 icon: "fas fa-flask",
                 children: [
                     {
-                        name: "Environment Setup",
+                        name: "Creating Synthetic Dataset",
                         children: [
                             { name: "Virtual machines" },
                             { name: "Network segmentation" },
-                            { name: "Logging infrastructure (e.g., Zeek, Wireshark)" }
+                            { name: "Logging infrastructure (e.g. CICFlowMeter Wireshark)" }
                         ]
                     },
                     {
@@ -1004,16 +1003,15 @@ const mindMapData = [
                     {
                         name: "Data Collection",
                         children: [
-                            { name: "Real network traffic (PCAP, NetFlow)" },
-                            { name: "Synthetic traffic generation (labelled)" }
+                            { name: "Public Dataset (CSV, NetFlow)" },
+                            { name: "Synthetic traffic generation (CSV, NetFlow)" }
                         ]
                     },
                     {
-                        name: "Dataset Preprocessing",
+                        name: "Synthetic Dataset Preprocessing",
                         children: [
                             { name: "Feature engineering (timing, size, protocol)" },
-                            { name: "Labeling (C2 traffic vs. benign)" },
-                            { name: "Balancing (oversampling/undersampling)" }
+                            { name: "Labeling (C2_traffic vs. benign)" }
                         ]
                     }
                 ]
@@ -1025,8 +1023,8 @@ const mindMapData = [
                     {
                         name: "Model Selection",
                         children: [
+                            { name: "Logestic Regression" },
                             { name: "Random Forest" },
-                            { name: "SVM" },
                             { name: "XGBoost" }
                         ]
                     },
@@ -1034,7 +1032,7 @@ const mindMapData = [
                         name: "Training & Testing",
                         children: [
                             { name: "Cross-validation" },
-                            { name: "Metrics (Accuracy, Precision, Recall, F1, ROC-AUC)" }
+                            { name: "Metrics (Accuracy, Precision, Recall, F1,)" }
                         ]
                     }
                 ]
@@ -1043,8 +1041,8 @@ const mindMapData = [
                 name: "5. Results & Analysis",
                 icon: "fas fa-chart-line",
                 children: [
-                    { name: "Performance comparison of models" },
-                    { name: "Real vs. synthetic dataset performance" },
+                    { name: "HAVOC C2 traffic analysis" },
+                    { name: "public vs. synthetic dataset performance" },
                     { name: "Limitations of current approaches" }
                 ]
             },
