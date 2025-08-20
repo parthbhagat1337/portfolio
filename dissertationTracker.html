@@ -5,21 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Master's Dissertation Progress Tracker</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&family=Michroma&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-bg: #0a0a0a;
-            --secondary-bg: #1a1a1a;
-            --accent-bg: #2a2a2a;
-            --neon-green: #00ff41;
-            --neon-blue: #0099ff;
-            --neon-red: #ff0040;
-            --neon-orange: #ff6600;
-            --neon-purple: #cc00ff;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b0b0;
-            --text-muted: #666666;
-            --glass-bg: rgba(255, 255, 255, 0.05);
+            --primary-bg: #030311;
+            --secondary-bg: #0c0c24;
+            --accent-bg: #1e1e3a;
+            --neon-magenta: #ff00ff;
+            --electric-cyan: #00ffff;
+            --cyber-yellow: #faff00;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0c0;
+            --glass-bg: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.1);
         }
 
@@ -30,7 +27,7 @@
         }
 
         body {
-            font-family: 'Rajdhani', sans-serif;
+            font-family: 'Roboto Mono', monospace;
             background: var(--primary-bg);
             color: var(--text-primary);
             min-height: 100vh;
@@ -47,52 +44,27 @@
             height: 100%;
             pointer-events: none;
             z-index: -1;
+            opacity: 0.5;
+            animation: background-pulse 10s ease-in-out infinite alternate;
         }
-
-        .matrix-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #001100, #000a00, #001a00);
-            opacity: 0.8;
-        }
-
-        .network-lines {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(circle at 20% 20%, rgba(0, 255, 65, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(0, 153, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 60%, rgba(255, 0, 64, 0.1) 0%, transparent 50%);
-            animation: pulse 4s ease-in-out infinite alternate;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.3; }
-            100% { opacity: 0.7; }
+        @keyframes background-pulse {
+            0% { background: radial-gradient(circle at 10% 10%, rgba(0, 255, 255, 0.05) 0%, transparent 50%), radial-gradient(circle at 90% 90%, rgba(255, 0, 255, 0.05) 0%, transparent 50%); }
+            100% { background: radial-gradient(circle at 90% 10%, rgba(0, 255, 255, 0.08) 0%, transparent 50%), radial-gradient(circle at 10% 90%, rgba(255, 0, 255, 0.08) 0%, transparent 50%); }
         }
 
         /* Scrollbar Styling */
         ::-webkit-scrollbar {
             width: 8px;
         }
-
         ::-webkit-scrollbar-track {
             background: var(--primary-bg);
         }
-
         ::-webkit-scrollbar-thumb {
-            background: var(--neon-green);
+            background: linear-gradient(180deg, var(--neon-magenta), var(--electric-cyan));
             border-radius: 4px;
         }
-
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--neon-blue);
+            background: linear-gradient(180deg, var(--electric-cyan), var(--neon-magenta));
         }
 
         /* Header */
@@ -100,103 +72,100 @@
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
-            padding: 2rem 0;
+            padding: 3rem 0;
             text-align: center;
             z-index: 100;
+            position: sticky;
+            top: 0;
+            animation: fadeInDown 0.8s ease-out;
         }
-
         .header h1 {
-            font-family: 'Orbitron', monospace;
-            font-size: 2.5rem;
-            font-weight: 900;
-            background: linear-gradient(45deg, var(--neon-green), var(--neon-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+            font-family: 'Michroma', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--neon-magenta);
+            text-shadow: 0 0 20px var(--neon-magenta);
             margin-bottom: 0.5rem;
-            animation: glow 2s ease-in-out infinite alternate;
+            animation: glitch 2s infinite;
         }
-
-        @keyframes glow {
-            from { text-shadow: 0 0 30px rgba(0, 255, 65, 0.5); }
-            to { text-shadow: 0 0 40px rgba(0, 255, 65, 0.8), 0 0 50px rgba(0, 153, 255, 0.3); }
-        }
-
         .header .subtitle {
             font-size: 1.2rem;
-            color: var(--text-secondary);
+            color: var(--electric-cyan);
             margin-bottom: 1.5rem;
             font-weight: 300;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
         }
-
         .header .research-focus {
             font-size: 1.0rem;
-            color: var(--neon-orange);
+            color: var(--cyber-yellow);
             font-weight: 500;
-            margin-bottom: 2rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 4px;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0); text-shadow: 0 0 20px var(--neon-magenta); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); text-shadow: 0 0 25px var(--neon-magenta); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
         }
 
-        /* Progress Section */
+        /* Overall Progress */
         .progress-section {
-            padding: 2rem;
+            padding: 4rem 2rem;
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
         }
-
         .overall-progress {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
+            background: var(--secondary-bg);
+            border: 2px solid var(--accent-bg);
             border-radius: 20px;
-            padding: 2rem;
+            padding: 2.5rem;
             margin-bottom: 3rem;
-            box-shadow: 0 10px 40px rgba(0, 255, 65, 0.1);
+            box-shadow: inset 0 0 20px rgba(255, 0, 255, 0.1), 0 0 40px rgba(0, 255, 255, 0.2);
+            position: relative;
+            animation: fadeInUp 1s ease-out;
         }
-
         .progress-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
         }
-
         .progress-title {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 700;
-            color: var(--neon-green);
+            color: var(--electric-cyan);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
         }
-
         .progress-percentage {
-            font-size: 2.5rem;
+            font-family: 'Michroma', sans-serif;
+            font-size: 3rem;
             font-weight: 900;
-            color: var(--neon-blue);
-            text-shadow: 0 0 20px rgba(0, 153, 255, 0.5);
+            color: var(--neon-magenta);
+            text-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
         }
-
         .progress-bar-container {
-            position: relative;
-            height: 20px;
+            height: 25px;
             background: var(--accent-bg);
-            border-radius: 10px;
+            border-radius: 12.5px;
             overflow: hidden;
             border: 1px solid var(--glass-border);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
         }
-
         .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
-            border-radius: 10px;
-            transition: width 0.8s ease;
+            background: linear-gradient(90deg, var(--neon-magenta), var(--electric-cyan));
+            border-radius: 12.5px;
+            transition: width 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
             position: relative;
             overflow: hidden;
         }
-
         .progress-bar::after {
             content: '';
             position: absolute;
@@ -204,10 +173,9 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             animation: shine 2s infinite;
         }
-
         @keyframes shine {
             0% { left: -100%; }
             100% { left: 100%; }
@@ -217,7 +185,7 @@
         .main-layout {
             display: grid;
             grid-template-columns: 1fr 350px;
-            gap: 2rem;
+            gap: 3rem;
             padding: 0 2rem;
             max-width: 1200px;
             margin: 0 auto;
@@ -227,92 +195,101 @@
         .weeks-container {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 2rem;
         }
-
         .week-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 15px;
+            background: var(--secondary-bg);
+            border: 1px solid var(--accent-bg);
+            border-radius: 20px;
             overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+            transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            position: relative;
+            animation: fadeInRight 0.8s ease-out;
         }
-
+        .week-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            border: 2px solid transparent;
+            background-image: linear-gradient(45deg, var(--neon-magenta), var(--electric-cyan));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
         .week-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 255, 65, 0.15);
-            border-color: var(--neon-green);
+            transform: scale(1.02) rotateX(2deg);
+            box-shadow: 0 15px 50px rgba(255, 0, 255, 0.3);
         }
-
+        .week-card:hover::before {
+            opacity: 0.5;
+        }
         .week-header {
-            padding: 1.5rem;
+            padding: 2rem;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: linear-gradient(135deg, var(--glass-bg), transparent);
-            border-bottom: 1px solid var(--glass-border);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.2), transparent);
+            border-bottom: 1px solid var(--accent-bg);
             transition: all 0.3s ease;
         }
-
         .week-header:hover {
-            background: linear-gradient(135deg, rgba(0, 255, 65, 0.1), transparent);
+            background: rgba(255, 0, 255, 0.1);
         }
-
         .week-title {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 600;
             color: var(--text-primary);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
         }
-
         .week-icon {
-            color: var(--neon-green);
-            font-size: 1.2rem;
+            color: var(--electric-cyan);
+            font-size: 1.5rem;
         }
-
         .week-progress {
             display: flex;
             align-items: center;
             gap: 15px;
         }
-
         .week-progress-bar {
-            width: 100px;
-            height: 8px;
+            width: 120px;
+            height: 10px;
             background: var(--accent-bg);
-            border-radius: 4px;
+            border-radius: 5px;
             overflow: hidden;
         }
-
         .week-progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--neon-orange), var(--neon-red));
-            border-radius: 4px;
-            transition: width 0.6s ease;
+            background: linear-gradient(90deg, var(--cyber-yellow), var(--neon-magenta));
+            border-radius: 5px;
+            transition: width 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
         }
-
         .week-percentage {
-            font-size: 1.1rem;
+            font-family: 'Michroma', sans-serif;
+            font-size: 1.2rem;
             font-weight: 700;
-            color: var(--neon-blue);
-            min-width: 40px;
+            color: var(--neon-magenta);
+            min-width: 45px;
             text-align: right;
         }
-
         .expand-icon {
             font-size: 1.2rem;
-            color: var(--text-muted);
-            transition: all 0.3s ease;
+            color: var(--text-secondary);
+            transition: transform 0.3s ease;
         }
-
         .week-card.expanded .expand-icon {
             transform: rotate(180deg);
-            color: var(--neon-green);
+            color: var(--electric-cyan);
         }
 
         /* Tasks */
@@ -321,438 +298,357 @@
             overflow: hidden;
             transition: max-height 0.5s ease;
         }
-
         .week-card.expanded .tasks-container {
             max-height: 1000px;
         }
-
         .task-list {
             padding: 1.5rem;
         }
-
         .task-item {
             display: flex;
             align-items: center;
             gap: 15px;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--glass-border);
+            padding: 15px 0;
+            border-bottom: 1px solid var(--accent-bg);
             transition: all 0.3s ease;
         }
-
         .task-item:last-child {
             border-bottom: none;
         }
-
         .task-item:hover {
-            background: rgba(0, 255, 65, 0.05);
+            background: rgba(255, 0, 255, 0.05);
             transform: translateX(5px);
         }
-
         .task-status {
-            width: 12px;
-            height: 12px;
+            width: 15px;
+            height: 15px;
             border-radius: 50%;
             flex-shrink: 0;
             position: relative;
+            animation: none;
         }
-
-        .task-status::after {
+        .task-status.not-started {
+            background: transparent;
+            border: 2px solid var(--text-secondary);
+        }
+        .task-status.in-progress {
+            background: var(--cyber-yellow);
+            border: 2px solid var(--cyber-yellow);
+            box-shadow: 0 0 15px rgba(250, 255, 0, 0.5);
+            animation: pulse-yellow 2s infinite;
+        }
+        .task-status.completed {
+            background: var(--electric-cyan);
+            border: 2px solid var(--electric-cyan);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+        .task-status.completed::after {
             content: '';
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-        }
-
-        .task-status.not-started {
-            background: var(--text-muted);
-            border: 2px solid var(--text-muted);
-        }
-
-        .task-status.in-progress {
-            background: var(--neon-orange);
-            border: 2px solid var(--neon-orange);
-            box-shadow: 0 0 15px rgba(255, 102, 0, 0.5);
-            animation: pulse-orange 2s infinite;
-        }
-
-        .task-status.completed {
-            background: var(--neon-green);
-            border: 2px solid var(--neon-green);
-            box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
-        }
-
-        .task-status.completed::after {
             background: var(--primary-bg);
         }
-
-        @keyframes pulse-orange {
-            0%, 100% { box-shadow: 0 0 15px rgba(255, 102, 0, 0.5); }
-            50% { box-shadow: 0 0 25px rgba(255, 102, 0, 0.8); }
+        @keyframes pulse-yellow {
+            0%, 100% { box-shadow: 0 0 15px rgba(250, 255, 0, 0.5); }
+            50% { box-shadow: 0 0 25px rgba(250, 255, 0, 0.8); }
         }
-
         .task-text {
             flex: 1;
             font-size: 1.1rem;
             color: var(--text-primary);
-            font-weight: 400;
         }
 
         /* Sidebar */
         .sidebar {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 2rem;
         }
-
         .sidebar-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
+            background: var(--secondary-bg);
+            border: 1px solid var(--accent-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInLeft 0.8s ease-out;
         }
-
         .sidebar-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 153, 255, 0.1);
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 15px 40px rgba(0, 255, 255, 0.2);
         }
-
         .sidebar-title {
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            color: var(--neon-blue);
-            margin-bottom: 1rem;
+            color: var(--electric-cyan);
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
         }
-
         .sidebar-icon {
-            color: var(--neon-green);
+            color: var(--neon-magenta);
         }
-
         .stat-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--glass-border);
+            padding: 12px 0;
+            border-bottom: 1px dashed var(--accent-bg);
         }
-
         .stat-item:last-child {
             border-bottom: none;
         }
-
         .stat-label {
             font-size: 1rem;
             color: var(--text-secondary);
         }
-
         .stat-value {
             font-size: 1.2rem;
             font-weight: 700;
-            color: var(--neon-green);
+            color: var(--cyber-yellow);
         }
-
         .resource-link {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 15px;
-            background: var(--glass-bg);
+            gap: 15px;
+            padding: 15px 20px;
+            background: var(--accent-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 10px;
+            border-radius: 12px;
             color: var(--text-primary);
             text-decoration: none;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-
+        .resource-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 255, 0.1), transparent);
+            transition: all 0.5s ease;
+        }
         .resource-link:hover {
-            background: rgba(0, 255, 65, 0.1);
-            border-color: var(--neon-green);
             transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(255, 0, 255, 0.15);
         }
-
+        .resource-link:hover::before {
+            left: 0;
+        }
         .resource-link i {
-            color: var(--neon-blue);
+            color: var(--neon-magenta);
         }
 
         /* Summary Section */
         .summary-section {
-            padding: 3rem 2rem;
+            padding: 5rem 2rem;
             max-width: 1200px;
             margin: 0 auto;
         }
-
         .summary-title {
-            font-size: 2.5rem;
+            font-family: 'Michroma', sans-serif;
+            font-size: 3rem;
             font-weight: 900;
-            color: var(--neon-purple);
+            color: var(--electric-cyan);
             text-align: center;
-            margin-bottom: 2rem;
-            font-family: 'Orbitron', monospace;
+            margin-bottom: 3rem;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
         }
-
         .summary-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
-
         .summary-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+            background: var(--secondary-bg);
+            border: 1px solid var(--accent-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            animation: fadeInUp 0.8s ease-out;
         }
-
         .summary-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(204, 0, 255, 0.15);
-            border-color: var(--neon-purple);
+            transform: translateY(-10px) rotateZ(-1deg);
+            box-shadow: 0 20px 50px rgba(250, 255, 0, 0.2);
+            border-color: var(--cyber-yellow);
         }
-
         .summary-card h3 {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--neon-orange);
-            margin-bottom: 1rem;
+            color: var(--neon-magenta);
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
-
         .summary-card p {
             color: var(--text-secondary);
-            line-height: 1.6;
+            line-height: 1.8;
             margin-bottom: 1rem;
         }
-
         .summary-card ul {
             list-style: none;
             padding: 0;
         }
-
         .summary-card li {
             color: var(--text-secondary);
-            margin-bottom: 8px;
-            padding-left: 20px;
+            margin-bottom: 10px;
+            padding-left: 25px;
             position: relative;
         }
-
         .summary-card li::before {
-            content: '▶';
+            content: '>';
+            font-family: 'Roboto Mono', monospace;
             position: absolute;
             left: 0;
-            color: var(--neon-green);
+            color: var(--cyber-yellow);
+        }
+
+        /* Mind Map Section */
+        .mindmap-section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .mindmap-title {
+            font-family: 'Michroma', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--neon-magenta);
+            text-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+            margin-bottom: 3rem;
+        }
+        .mindmap-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 3rem;
+            background: var(--secondary-bg);
+            border: 1px solid var(--accent-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            overflow-x: auto;
+        }
+        .mindmap-node {
+            position: relative;
+            margin-bottom: 1.5rem;
+            padding-left: 40px;
+            text-align: left;
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: fadeInRight 0.5s ease-out forwards;
+        }
+        .mindmap-node.level-0 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--electric-cyan);
+            margin-bottom: 3rem;
+            align-self: center;
+            padding-left: 0;
+            transform: translateY(0);
+            animation: fadeIn 0.8s ease-out forwards;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+        .mindmap-node.level-1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--neon-magenta);
+            margin-left: 0;
+            border-left: 3px solid var(--neon-magenta);
+            padding-left: 20px;
+        }
+        .mindmap-node.level-2 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--cyber-yellow);
+            margin-left: 30px;
+            border-left: 2px solid var(--cyber-yellow);
+            padding-left: 20px;
+        }
+        .mindmap-node.level-3 {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-left: 50px;
+            border-left: 1px solid var(--text-secondary);
+            padding-left: 20px;
+        }
+        .mindmap-node::before {
+            content: '---';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--neon-magenta);
+        }
+        .mindmap-node.level-0::before {
+            display: none;
+        }
+        .mindmap-node .icon {
+            margin-right: 10px;
+            color: var(--electric-cyan);
+        }
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Responsive Design */
         @media (max-width: 1024px) {
             .main-layout {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
+                gap: 2rem;
             }
-            
             .sidebar {
                 order: -1;
             }
-            
             .header h1 {
                 font-size: 2.5rem;
             }
         }
-
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 2rem;
             }
-            
-            .progress-section,
-            .main-layout,
-            .summary-section {
+            .progress-section, .main-layout, .summary-section, .mindmap-section {
                 padding: 1rem;
             }
-            
             .week-header {
                 flex-direction: column;
                 gap: 1rem;
                 align-items: flex-start;
             }
-            
             .week-progress {
                 width: 100%;
                 justify-content: space-between;
             }
-            
             .week-progress-bar {
                 flex: 1;
-            }
-        }
-
-        /* Loading Animation */
-        .loading-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--primary-bg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
-        }
-
-        .loading-animation.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .loader {
-            width: 60px;
-            height: 60px;
-            border: 3px solid var(--accent-bg);
-            border-top: 3px solid var(--neon-green);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Mind Map Specific Styles */
-        .mindmap-section {
-            padding: 3rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .mindmap-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 2.5rem;
-            font-weight: 900;
-            background: linear-gradient(45deg, var(--neon-purple), var(--neon-orange));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 30px rgba(204, 0, 255, 0.5);
-            margin-bottom: 2rem;
-            animation: glow-purple 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow-purple {
-            from { text-shadow: 0 0 30px rgba(204, 0, 255, 0.5); }
-            to { text-shadow: 0 0 40px rgba(204, 0, 255, 0.8), 0 0 50px rgba(255, 102, 0, 0.3); }
-        }
-
-        .mindmap-container {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start; /* Align to start for tree-like structure */
-            padding: 2rem;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
-            overflow-x: auto; /* Allow horizontal scrolling for wide mindmaps */
-        }
-
-        .mindmap-node {
-            position: relative;
-            margin-bottom: 1.5rem;
-            padding-left: 30px; /* Space for connecting lines */
-            text-align: left;
-            opacity: 0;
-            transform: translateX(-20px);
-            animation: fadeInRight 0.5s ease-out forwards;
-        }
-
-        .mindmap-node.level-0 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--neon-green);
-            margin-bottom: 2.5rem;
-            align-self: center; /* Center the root node */
-            padding-left: 0;
-            transform: translateY(0);
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-
-        .mindmap-node.level-1 {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--neon-blue);
-            margin-left: 0; /* Aligned with parent */
-            border-left: 2px solid var(--neon-blue);
-            padding-left: 20px;
-        }
-
-        .mindmap-node.level-2 {
-            font-size: 1.2rem;
-            font-weight: 500;
-            color: var(--neon-orange);
-            margin-left: 20px;
-            border-left: 2px solid var(--neon-orange);
-            padding-left: 20px;
-        }
-
-        .mindmap-node.level-3 {
-            font-size: 1rem;
-            font-weight: 400;
-            color: var(--text-secondary);
-            margin-left: 40px;
-            border-left: 2px solid var(--text-muted);
-            padding-left: 20px;
-        }
-
-        .mindmap-node::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            width: 15px;
-            height: 2px;
-            background: var(--neon-green);
-            transform: translateY(-50%);
-        }
-
-        .mindmap-node.level-0::before {
-            display: none; /* No incoming line for root */
-        }
-
-        .mindmap-node:not(.level-0) {
-            margin-top: 0.5rem;
-        }
-
-        .mindmap-node .icon {
-            margin-right: 10px;
-            color: var(--neon-green);
-        }
-
-        @keyframes fadeInRight {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
             }
         }
     </style>
@@ -761,18 +657,12 @@
     <div class="loading-animation" id="loadingAnimation">
         <div class="loader"></div>
     </div>
-
-    <div class="bg-animation">
-        <div class="matrix-bg"></div>
-        <div class="network-lines"></div>
-    </div>
-
+    <div class="bg-animation"></div>
     <header class="header">
         <h1><i class="fas fa-shield-alt"></i> Detecting Encrypted Command-and-Control [C2] Communications</h1>
-        <p class="subtitle">Using Light Weight Machine Learning Models</p>
+        <p class="subtitle">Using Lightweight Machine Learning Models</p>
         <p class="research-focus">Master's Dissertation Progress Tracker</p>
     </header>
-
     <div class="progress-section">
         <div class="overall-progress">
             <div class="progress-header">
@@ -787,11 +677,8 @@
             </div>
         </div>
     </div>
-
     <div class="main-layout">
-        <div class="weeks-container" id="weeksContainer">
-            </div>
-
+        <div class="weeks-container" id="weeksContainer"></div>
         <div class="sidebar">
             <div class="sidebar-card">
                 <h3 class="sidebar-title">
@@ -815,7 +702,6 @@
                     <span class="stat-value" id="remainingTasks">0</span>
                 </div>
             </div>
-
             <div class="sidebar-card">
                 <h3 class="sidebar-title">
                     <i class="fas fa-link sidebar-icon"></i>
@@ -844,7 +730,6 @@
             </div>
         </div>
     </div>
-
     <div class="summary-section">
         <h2 class="summary-title">
             <i class="fas fa-microscope"></i>
@@ -865,534 +750,276 @@
             </div>
             <div class="summary-card">
                 <h3><i class="fas fa-flask"></i> Research Methodology</h3>
-                <p>Public Dataset and Synthetic dataset gernerated in virtual lab simulation of C2 and legitimate traffic, feature extraction (flow patterns, timing, metadata), multiple ML model training and evaluation, with focus on lightweight models for edge deployment.</p>
+                <p>Public Dataset and Synthetic dataset generated in a virtual lab simulation of C2 and legitimate traffic, feature extraction (flow patterns, timing, metadata), multiple ML model training and evaluation, with a focus on lightweight models for edge deployment.</p>
             </div>
             <div class="summary-card">
                 <h3><i class="fas fa-trophy"></i> Expected Output</h3>
                 <ul>
                     <li>Labeled synthetic C2 traffic dataset</li>
                     <li>Comparative ML model analysis for C2 detection</li>
-                    <li>Analysis of a different C2 framework </li>
+                    <li>Analysis of a different C2 framework</li>
                     <li>Key feature identification for encrypted C2 traffic</li>
                 </ul>
             </div>
         </div>
     </div>
-
     <div class="mindmap-section">
         <h2 class="mindmap-title">
             <i class="fas fa-brain"></i>
             Dissertation Mind Map
         </h2>
-        <div class="mindmap-container" id="mindmapContainer">
-            </div>
+        <div class="mindmap-container" id="mindmapContainer"></div>
     </div>
-
     <script>
-        // Week data - Update this object to modify your research progress
-const weekData = {
-    1: {
-        title: "Research Foundation & Literature Review",
-        icon: "fas fa-book-open",
-        tasks: [
-            { text: "Finalize Research Topic & Scope", status: "completed" },
-            { text: "Collect C2 Communication Research Papers(20 Research Papers)", status: "completed" },
-            { text: "Study C2 Communication Research Papers(20 Research Papers)", status: "completed" },
-            { text: "Conduct Comprehensive Literature Survey", status: "completed" },
-            { text: "Identify Research Gaps & Opportunities", status: "completed" },
-            { text: "Define Research Questions & Objectives", status: "completed" },
-            { text: "Survey Tools & Techniques required", status: "completed" }
-        ]
-    },
-    2: {
-        title: "Lab Setup & Dataset Creation",
-        icon: "fas fa-network-wired",
-        tasks: [
-            { text: "Find Public Dataset", status: "completed" },
-            { text: "Design Virtual Lab Architecture", status: "completed" },
-            { text: "Deploy C2 Server Infrastructure", status: "completed" },
-            { text: "Configure Network Traffic Monitoring", status: "completed" },
-            { text: "Generate C2 vs Normal Traffic Samples", status: "completed" },
-            { text: "Extract Network Flow Features", status: "completed" },
-            { text: "Create Labeled Training Dataset", status: "completed" },
-            { text: "Document Data Collection Methodology", status: "completed" }
-        ]
-    },
-    3: {
-        title: "ML Model Development & Training",
-        icon: "fas fa-robot",
-        tasks: [
-            { text: "Select ML Algorithms (e.g LR, RF, XGBOOST)", status: "completed" },
-            { text: "Prepare Public and synthetic Dataset", status: "completed" },
-            { text: "Write ML code for public dataset", status: "completed" },
-            { text: "Train & Optimize ML model for public dataset", status: "completed" },
-            { text: "Study the output results for public dataset", status: "completed" },
-            { text: "Train & Optimize ML model for synthetic dataset", status: "completed" },
-            { text: "Compare both and document the results", status: "completed" }
-        ]
-    },
-    4: {
-        title: "Analysis & Documentation",
-        icon: "fas fa-chart-bar",
-        tasks: [
-            { text: "Compile Research Findings", status: "in-progress" },
-            { text: "Write Methodology Chapter", status: "in-progressd" },
-            { text: "Document Experimental Results", status: "in-progress" },
-            { text: "Create Performance Visualizations", status: "in-progress" },
-            { text: "Write Discussion & Analysis", status: "in-progress" },
-            { text: "Prepare Conclusions & Future Work", status: "in-progress" },
-            { text: "Compile References & Citations", status: "in-progress" },
-            { text: "Final Proofreading & Submission", status: "not-started" }
-        ]
-    }
-};
-
-// Mind Map Data Structure
-const mindMapData = [
-    {
-        name: "Detecting Encrypted Command-and-Control [C2] Communications",
-        icon: "fas fa-shield-alt",
-        children: [
-            {
-                name: "1. Introduction",
-                icon: "fas fa-info-circle",
-                children: [
-                    { name: "Background on C2 communication" },
-                    { name: "Relevance of ML in cybersecurity" },
-                    { name: "Research problem & objectives" }
+        const weekData = {
+            1: {
+                title: "Research Foundation & Literature Review",
+                icon: "fas fa-book-open",
+                tasks: [
+                    { text: "Finalize Research Topic & Scope", status: "completed" },
+                    { text: "Collect C2 Communication Research Papers(20 Research Papers)", status: "completed" },
+                    { text: "Study C2 Communication Research Papers(20 Research Papers)", status: "completed" },
+                    { text: "Conduct Comprehensive Literature Survey", status: "completed" },
+                    { text: "Identify Research Gaps & Opportunities", status: "completed" },
+                    { text: "Define Research Questions & Objectives", status: "completed" },
+                    { text: "Survey Tools & Techniques required", status: "completed" }
                 ]
             },
-            {
-                name: "2. Literature Review",
-                icon: "fas fa-book",
-                children: [
-                    { name: "Traditional C2 detection techniques" },
-                    { name: "Modern C2 frameworks & evasion" },
-                    { name: "Machine Learning in intrusion detection" },
-                    { name: "Existing datasets for C2 traffic" },
-                    { name: "Gaps in current research" }
+            2: {
+                title: "Lab Setup & Dataset Creation",
+                icon: "fas fa-network-wired",
+                tasks: [
+                    { text: "Find Public Dataset", status: "completed" },
+                    { text: "Design Virtual Lab Architecture", status: "completed" },
+                    { text: "Deploy C2 Server Infrastructure", status: "completed" },
+                    { text: "Configure Network Traffic Monitoring", status: "completed" },
+                    { text: "Generate C2 vs Normal Traffic Samples", status: "completed" },
+                    { text: "Extract Network Flow Features", status: "completed" },
+                    { text: "Create Labeled Training Dataset", status: "completed" },
+                    { text: "Document Data Collection Methodology", status: "completed" }
                 ]
             },
-            {
-                name: "3. Methodology",
-                icon: "fas fa-flask",
-                children: [
-                    {
-                        name: "Creating Synthetic Dataset",
-                        children: [
-                            { name: "Virtual machines" },
-                            { name: "Network segmentation" },
-                            { name: "Logging infrastructure (e.g. CICFlowMeter Wireshark)" }
-                        ]
-                    },
-                    {
-                        name: "C2 Frameworks Used",
-                        children: [
-                            { name: "Havoc" },
-                            { name: "Sliver (Optional)" }
-                        ]
-                    },
-                    {
-                        name: "Attack Simulation",
-                        children: [
-                            { name: "Payload deployment" },
-                            { name: "Data exfiltration" },
-                            { name: "Periodic beaconing" }
-                        ]
-                    },
-                    {
-                        name: "Data Collection",
-                        children: [
-                            { name: "Public Dataset (CSV, NetFlow)" },
-                            { name: "Synthetic traffic generation (CSV, NetFlow)" }
-                        ]
-                    },
-                    {
-                        name: "Synthetic Dataset Preprocessing",
-                        children: [
-                            { name: "Feature engineering (timing, size, protocol)" },
-                            { name: "Labeling (C2_traffic vs. benign)" }
-                        ]
-                    }
-                ]
-            },
-            {
-                name: "4. Machine Learning Models",
+            3: {
+                title: "ML Model Development & Training",
                 icon: "fas fa-robot",
+                tasks: [
+                    { text: "Select ML Algorithms (e.g LR, RF, XGBOOST)", status: "completed" },
+                    { text: "Prepare Public and synthetic Dataset", status: "completed" },
+                    { text: "Write ML code for public dataset", status: "completed" },
+                    { text: "Train & Optimize ML model for public dataset", status: "completed" },
+                    { text: "Study the output results for public dataset", status: "completed" },
+                    { text: "Train & Optimize ML model for synthetic dataset", status: "completed" },
+                    { text: "Compare both and document the results", status: "completed" }
+                ]
+            },
+            4: {
+                title: "Analysis & Documentation",
+                icon: "fas fa-chart-bar",
+                tasks: [
+                    { text: "Compile Research Findings", status: "in-progress" },
+                    { text: "Write Methodology Chapter", status: "in-progress" },
+                    { text: "Document Experimental Results", status: "in-progress" },
+                    { text: "Create Performance Visualizations", status: "in-progress" },
+                    { text: "Write Discussion & Analysis", status: "in-progress" },
+                    { text: "Prepare Conclusions & Future Work", status: "in-progress" },
+                    { text: "Compile References & Citations", status: "in-progress" },
+                    { text: "Final Proofreading & Submission", status: "not-started" }
+                ]
+            }
+        };
+
+        const mindMapData = [
+            {
+                name: "Detecting Encrypted Command-and-Control [C2] Communications",
+                icon: "fas fa-shield-alt",
                 children: [
                     {
-                        name: "Model Selection",
+                        name: "1. Introduction",
+                        icon: "fas fa-info-circle",
                         children: [
-                            { name: "Logestic Regression" },
-                            { name: "Random Forest" },
-                            { name: "XGBoost" }
+                            { name: "Background on C2 communication" },
+                            { name: "Relevance of ML in cybersecurity" },
+                            { name: "Research problem & objectives" }
                         ]
                     },
                     {
-                        name: "Training & Testing",
+                        name: "2. Literature Review",
+                        icon: "fas fa-book",
                         children: [
-                            { name: "Cross-validation" },
-                            { name: "Metrics (Accuracy, Precision, Recall, F1,)" }
+                            { name: "Traditional C2 detection techniques" },
+                            { name: "Modern C2 frameworks & evasion" },
+                            { name: "Machine Learning in intrusion detection" },
+                            { name: "Existing datasets for C2 traffic" },
+                            { name: "Gaps in current research" }
+                        ]
+                    },
+                    {
+                        name: "3. Methodology",
+                        icon: "fas fa-flask",
+                        children: [
+                            {
+                                name: "Creating Synthetic Dataset",
+                                children: [
+                                    { name: "Virtual machines" },
+                                    { name: "Network segmentation" },
+                                    { name: "Logging infrastructure (e.g. CICFlowMeter, Wireshark)" }
+                                ]
+                            },
+                            {
+                                name: "C2 Frameworks Used",
+                                children: [
+                                    { name: "Havoc" },
+                                    { name: "Sliver (Optional)" }
+                                ]
+                            },
+                            {
+                                name: "Feature Extraction",
+                                children: [
+                                    { name: "Flow-based features" },
+                                    { name: "Timing-based features" },
+                                    { name: "Metadata analysis" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "4. ML Model Training",
+                        icon: "fas fa-robot",
+                        children: [
+                            { name: "Public Dataset Preparation & Training" },
+                            { name: "Synthetic Dataset Preparation & Training" },
+                            { name: "Model Selection (LR, RF, XGBoost)" },
+                            { name: "Hyperparameter Tuning" }
+                        ]
+                    },
+                    {
+                        name: "5. Results & Analysis",
+                        icon: "fas fa-chart-bar",
+                        children: [
+                            { name: "Performance comparison (Public vs. Synthetic)" },
+                            { name: "Lightweight model evaluation" },
+                            { name: "Feature importance analysis" },
+                            { name: "Detection capabilities" }
+                        ]
+                    },
+                    {
+                        name: "6. Conclusion & Future Work",
+                        icon: "fas fa-lightbulb",
+                        children: [
+                            { name: "Summary of findings" },
+                            { name: "Contributions to the field" },
+                            { name: "Limitations of the study" },
+                            { name: "Future research directions" }
                         ]
                     }
                 ]
-            },
-            {
-                name: "5. Results & Analysis",
-                icon: "fas fa-chart-line",
-                children: [
-                    { name: "HAVOC C2 traffic analysis" },
-                    { name: "public vs. synthetic dataset performance" },
-                    { name: "Limitations of current approaches" }
-                ]
-            },
-            {
-                name: "6. GUI/Visualization Dashboard (Optional)",
-                icon: "fas fa-desktop",
-                children: [
-                    { name: "Attack timeline" },
-                    { name: "ML model training progress" },
-                ]
-            },
-            {
-                name: "7. Discussion",
-                icon: "fas fa-comments",
-                children: [
-                    { name: "Implications for blue team/defenders" },
-                    { name: "Limitations of ML in dynamic C2 detection" },
-                    { name: "Future directions (e.g., real-time detection, deep learning, federated learning)" }
-                ]
-            },
-            {
-                name: "8. Conclusion",
-                icon: "fas fa-check-circle",
-                children: [
-                    { name: "Summary of findings" },
-                    { name: "Contributions to research" },
-                    { name: "Recommendations" }
-                ]
-            },
-            {
-                name: "9. References",
-                icon: "fas fa-external-link-alt",
-                children: [
-                    { name: "~20 Research papers, tools, and datasets" }
-                ]
             }
-        ]
-    }
-];
+        ];
 
-// Function to render mind map
-function renderMindMap(data, parentElement, level = 0) {
-    data.forEach((node, index) => {
-        const nodeElement = document.createElement('div');
-        nodeElement.className = `mindmap-node level-${level}`;
-        if (level === 0) {
-            nodeElement.innerHTML = `<i class="${node.icon} icon"></i> ${node.name}`;
-        } else {
-            nodeElement.textContent = node.name;
-        }
-        nodeElement.style.animationDelay = `${index * 0.1 + (level * 0.2)}s`; // Staggered animation
-        parentElement.appendChild(nodeElement);
+        // JavaScript functions to render content (unchanged)
+        document.addEventListener('DOMContentLoaded', () => {
+            const weeksContainer = document.getElementById('weeksContainer');
+            const overallProgressBar = document.getElementById('overallProgressBar');
+            const overallPercentage = document.getElementById('overallPercentage');
+            const totalTasksEl = document.getElementById('totalTasks');
+            const completedTasksEl = document.getElementById('completedTasks');
+            const inProgressTasksEl = document.getElementById('inProgressTasks');
+            const remainingTasksEl = document.getElementById('remainingTasks');
+            const mindmapContainer = document.getElementById('mindmapContainer');
+            const loadingAnimation = document.getElementById('loadingAnimation');
 
-        if (node.children && node.children.length > 0) {
-            const childrenContainer = document.createElement('div');
-            childrenContainer.className = 'mindmap-children';
-            nodeElement.appendChild(childrenContainer); // Append children container to the node
+            let totalTasks = 0;
+            let completedTasks = 0;
+            let inProgressTasks = 0;
 
-            renderMindMap(node.children, childrenContainer, level + 1);
-        }
-    });
-}
+            const renderWeeks = () => {
+                let html = '';
+                for (const weekNum in weekData) {
+                    const week = weekData[weekNum];
+                    let completedWeekTasks = 0;
+                    week.tasks.forEach(task => {
+                        if (task.status === 'completed') {
+                            completedWeekTasks++;
+                            completedTasks++;
+                        } else if (task.status === 'in-progress') {
+                            inProgressTasks++;
+                        }
+                        totalTasks++;
+                    });
 
-
-// Calculate progress functions
-function calculateWeekProgress(week) {
-    const tasks = weekData[week].tasks;
-    const completed = tasks.filter(task => task.status === 'completed').length;
-    return Math.round((completed / tasks.length) * 100);
-}
-
-function calculateOverallProgress() {
-    let totalTasks = 0;
-    let completedTasks = 0;
-    let inProgressTasks = 0;
-
-    for (let week in weekData) {
-        totalTasks += weekData[week].tasks.length;
-        weekData[week].tasks.forEach(task => {
-            if (task.status === 'completed') completedTasks++;
-            else if (task.status === 'in-progress') inProgressTasks++;
-        });
-    }
-
-    const overallCompletionPercentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
-    return {
-        overallCompletionPercentage,
-        totalTasks,
-        completedTasks,
-        inProgressTasks,
-        remainingTasks: totalTasks - completedTasks - inProgressTasks
-    };
-}
-
-// Update statistics
-function updateStats() {
-    const stats = calculateOverallProgress();
-    document.getElementById('totalTasks').textContent = stats.totalTasks;
-    document.getElementById('completedTasks').textContent = stats.completedTasks;
-    document.getElementById('inProgressTasks').textContent = stats.inProgressTasks;
-    document.getElementById('remainingTasks').textContent = stats.remainingTasks;
-    
-    // Update progress bar
-    document.getElementById('overallProgressBar').style.width = stats.overallCompletionPercentage + '%';
-    document.getElementById('overallPercentage').textContent = stats.overallCompletionPercentage + '%';
-}
-
-// Toggle week expansion
-function toggleWeek(weekNumber) {
-    const weekCard = document.querySelector(`[data-week="${weekNumber}"]`);
-    weekCard.classList.toggle('expanded');
-}
-
-// Render week cards
-function renderWeeks() {
-    const container = document.getElementById('weeksContainer');
-    container.innerHTML = '';
-
-    for (let week in weekData) {
-        const weekProgress = calculateWeekProgress(week);
-        const weekCard = document.createElement('div');
-        weekCard.className = 'week-card';
-        weekCard.setAttribute('data-week', week);
-        
-        weekCard.innerHTML = `
-            <div class="week-header" onclick="toggleWeek(${week})">
-                <div class="week-title">
-                    <i class="week-icon ${weekData[week].icon}"></i>
-                    Week ${week}: ${weekData[week].title}
-                </div>
-                <div class="week-progress">
-                    <div class="week-progress-bar">
-                        <div class="week-progress-fill" style="width: ${weekProgress}%"></div>
-                    </div>
-                    <div class="week-percentage">${weekProgress}%</div>
-                    <div class="expand-icon">
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="tasks-container">
-                <div class="task-list">
-                    ${weekData[week].tasks.map(task => `
-                        <div class="task-item">
-                            <div class="task-status ${task.status}"></div>
-                            <div class="task-text">${task.text}</div>
+                    const weekProgress = (completedWeekTasks / week.tasks.length) * 100;
+                    
+                    html += `
+                        <div class="week-card" data-week="${weekNum}">
+                            <div class="week-header">
+                                <div class="week-title">
+                                    <i class="${week.icon} week-icon"></i>
+                                    <span>Week ${weekNum}: ${week.title}</span>
+                                </div>
+                                <div class="week-progress">
+                                    <div class="week-progress-bar">
+                                        <div class="week-progress-fill" style="width: ${weekProgress}%;"></div>
+                                    </div>
+                                    <div class="week-percentage">${Math.round(weekProgress)}%</div>
+                                    <i class="fas fa-chevron-down expand-icon"></i>
+                                </div>
+                            </div>
+                            <div class="tasks-container">
+                                <ul class="task-list">
+                                    ${week.tasks.map(task => `
+                                        <li class="task-item">
+                                            <div class="task-status ${task.status}"></div>
+                                            <span class="task-text">${task.text}</span>
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </div>
                         </div>
-                    `).join('')}
-                </div>
-            </div>
-        `;
-        
-        container.appendChild(weekCard);
-    }
-}
+                    `;
+                }
+                weeksContainer.innerHTML = html;
+            };
 
-// Matrix rain effect
-function createMatrixRain() {
-    const canvas = document.createElement('canvas');
-    canvas.style.position = 'fixed';
-    canvas.style.top = '0';
-    canvas.style.left = '0';
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-    canvas.style.pointerEvents = 'none';
-    canvas.style.zIndex = '-1';
-    canvas.style.opacity = '0.1';
-    document.body.appendChild(canvas);
+            const updateOverallProgress = () => {
+                const overallProgress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
+                overallProgressBar.style.width = `${overallProgress}%`;
+                overallPercentage.textContent = `${Math.round(overallProgress)}%`;
+                totalTasksEl.textContent = totalTasks;
+                completedTasksEl.textContent = completedTasks;
+                inProgressTasksEl.textContent = inProgressTasks;
+                remainingTasksEl.textContent = totalTasks - completedTasks - inProgressTasks;
+            };
 
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+            const renderMindMap = (data, parentEl, level = 0) => {
+                data.forEach(node => {
+                    const nodeEl = document.createElement('div');
+                    nodeEl.className = `mindmap-node level-${level}`;
+                    nodeEl.style.animationDelay = `${level * 0.1}s`;
+                    nodeEl.innerHTML = `<span class="icon">${node.icon ? `<i class="${node.icon}"></i>` : ''}</span>${node.name}`;
+                    parentEl.appendChild(nodeEl);
+                    if (node.children) {
+                        renderMindMap(node.children, parentEl, level + 1);
+                    }
+                });
+            };
 
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
-    const charArray = chars.split('');
-    const fontSize = 14;
-    const columns = canvas.width / fontSize;
-    const drops = [];
+            renderWeeks();
+            updateOverallProgress();
+            renderMindMap(mindMapData, mindmapContainer);
 
-    for (let i = 0; i < columns; i++) {
-        drops[i] = 1;
-    }
+            weeksContainer.addEventListener('click', (e) => {
+                const card = e.target.closest('.week-card');
+                if (card) {
+                    card.classList.toggle('expanded');
+                }
+            });
 
-    function draw() {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        ctx.fillStyle = '#00ff41';
-        ctx.font = fontSize + 'px monospace';
-
-        for (let i = 0; i < drops.length; i++) {
-            const text = charArray[Math.floor(Math.random() * charArray.length)];
-            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                drops[i] = 0;
-            }
-            drops[i]++;
-        }
-    }
-
-    setInterval(draw, 35);
-
-    // Resize handler
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    });
-}
-
-// Floating particles effect
-function createFloatingParticles() {
-    const particleContainer = document.createElement('div');
-    particleContainer.style.position = 'fixed';
-    particleContainer.style.top = '0';
-    particleContainer.style.left = '0';
-    particleContainer.style.width = '100%';
-    particleContainer.style.height = '100%';
-    particleContainer.style.pointerEvents = 'none';
-    particleContainer.style.zIndex = '-1';
-    document.body.appendChild(particleContainer);
-
-    for (let i = 0; i < 50; i++) {
-        const particle = document.createElement('div');
-        particle.style.position = 'absolute';
-        particle.style.width = '2px';
-        particle.style.height = '2px';
-        particle.style.backgroundColor = '#00ff41';
-        particle.style.borderRadius = '50%';
-        particle.style.opacity = Math.random();
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.top = Math.random() * 100 + '%';
-        particle.style.animation = `float ${5 + Math.random() * 10}s linear infinite`;
-        
-        const keyframes = `
-            @keyframes float {
-                0% { transform: translateY(0px) translateX(0px); }
-                25% { transform: translateY(-20px) translateX(10px); }
-                50% { transform: translateY(0px) translateX(-10px); }
-                75% { transform: translateY(20px) translateX(10px); }
-                100% { transform: translateY(0px) translateX(0px); }
-            }
-        `;
-        
-        if (!document.getElementById('particle-keyframes')) {
-            const style = document.createElement('style');
-            style.id = 'particle-keyframes';
-            style.textContent = keyframes;
-            document.head.appendChild(style);
-        }
-        
-        particleContainer.appendChild(particle);
-    }
-}
-
-// Initialize application
-function initializeApp() {
-    // Hide loading animation
-    setTimeout(() => {
-        document.getElementById('loadingAnimation').classList.add('hidden');
-    }, 1500);
-
-    // Render components
-    renderWeeks();
-    updateStats();
-    
-    // Render mind map
-    renderMindMap(mindMapData, document.getElementById('mindmapContainer'));
-
-    // Create visual effects
-    createMatrixRain();
-    createFloatingParticles();
-    
-    // Add scroll animations
-    addScrollAnimations();
-}
-
-// Scroll animations
-function addScrollAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.animation = 'fadeIn 0.6s ease-out forwards';
-            }
+            // Simulate loading
+            setTimeout(() => {
+                loadingAnimation.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 1000);
         });
-    }, observerOptions);
-
-    // Observe all cards and mindmap nodes
-    document.querySelectorAll('.week-card, .sidebar-card, .summary-card, .mindmap-node').forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        observer.observe(card);
-    });
-}
-
-// Event listeners
-document.addEventListener('DOMContentLoaded', initializeApp);
-
-// Add some extra CSS animations
-const additionalCSS = `
-    @keyframes fadeIn {
-        from { 
-            opacity: 0; 
-            transform: translateY(20px); 
-        }
-        to { 
-            opacity: 1; 
-            transform: translateY(0); 
-        }
-    }
-    
-    .week-card, .sidebar-card, .summary-card {
-        animation: fadeIn 0.6s ease-out forwards;
-    }
-    
-    /* Cyber grid overlay */
-    .cyber-grid {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: -1;
-        background-image: 
-            linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
-        background-size: 50px 50px;
-        animation: grid-move 20s linear infinite;
-    }
-    
-    @keyframes grid-move {
-        0% { transform: translate(0, 0); }
-        100% { transform: translate(50px, 50px); }
-    }
-`;
-
-const style = document.createElement('style');
-style.textContent = additionalCSS;
-document.head.appendChild(style);
-
-// Add cyber grid
-const cyberGrid = document.createElement('div');
-cyberGrid.className = 'cyber-grid';
-document.body.appendChild(cyberGrid);
     </script>
 </body>
 </html>
