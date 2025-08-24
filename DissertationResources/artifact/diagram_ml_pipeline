@@ -1,0 +1,20 @@
+digraph ml_pipeline {
+    rankdir=TB;  // Top to Bottom
+    node [shape=box, style=rounded, color=black, fontname="Helvetica", fontsize=10, fixedsize=false, width=3];
+
+    // Define nodes with labels
+    DataInput [label="Data I/O\n(Load datasets from CSV)"];
+    Preprocess [label="Preprocessing\n(Clean & Encode labels)"];
+    Split [label="Splitting\n(Train/Validation split)"];
+    Scale [label="Scaling\n(Feature Standardization)"];
+    Balance [label="Balancing\n(SMOTE Oversampling)"];
+    TrainModel [label="Model Training\n(Logistic Regression, Random Forest, XGBoost)"];
+    Evaluate [label="Evaluation\n(Internal & External Testing)"];
+    Reporting [label="Reporting\n(Plots & Logs Generation)"];
+
+    // Define edges in order
+    DataInput -> Preprocess -> Split -> Scale -> Balance -> TrainModel -> Evaluate -> Reporting;
+
+    // Styling for clarity and spacing
+    graph [splines=ortho, nodesep=0.7, ranksep=0.9];
+}

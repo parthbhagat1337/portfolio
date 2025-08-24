@@ -1,0 +1,106 @@
+NETWORK TRAFFIC CLASSIFICATION RESULTS
+==================================================
+
+Timestamp: 2025-08-22 15:54:59.187016
+Training Dataset: External-Realistic-C2-Dataset
+Testing Dataset: Synthetic-Havoc-Dataset
+
+MODEL PERFORMANCE SUMMARY
+------------------------------
+
+Logistic Regression:
+  External-Realistic-C2-Dataset (Validation):
+    Accuracy:  0.9355
+    Precision: 0.9361
+    Recall:    0.9355
+    F1-score:  0.9356
+    AUC:       0.9767
+  Synthetic-Havoc-Dataset (Test):
+    Accuracy:  0.7637
+    Precision: 0.9126
+    Recall:    0.7637
+    F1-score:  0.7993
+    AUC:       0.9430
+
+Random Forest:
+  External-Realistic-C2-Dataset (Validation):
+    Accuracy:  0.9987
+    Precision: 0.9987
+    Recall:    0.9987
+    F1-score:  0.9987
+    AUC:       0.9999
+  Synthetic-Havoc-Dataset (Test):
+    Accuracy:  0.3845
+    Precision: 0.6366
+    Recall:    0.3845
+    F1-score:  0.4780
+    AUC:       0.2500
+
+XGBoost:
+  External-Realistic-C2-Dataset (Validation):
+    Accuracy:  0.9990
+    Precision: 0.9990
+    Recall:    0.9990
+    F1-score:  0.9990
+    AUC:       1.0000
+  Synthetic-Havoc-Dataset (Test):
+    Accuracy:  0.8513
+    Precision: 0.8855
+    Recall:    0.8513
+    F1-score:  0.8634
+    AUC:       0.8488
+
+
+TOP 15 IMPORTANT FEATURES
+------------------------------
+
+Logistic Regression:
+  ACK Flag Count: 0.1933
+  Packet Length Max: 0.1746
+  Fwd Packet Length Std: 0.1419
+  Bwd Packet Length Std: 0.0883
+  Src Port: 0.0594
+  Dst Port: 0.0521
+  Active Min: 0.0486
+  Packet Length Std: 0.0333
+  Fwd Packet Length Max: 0.0257
+  SYN Flag Count: 0.0222
+  Bwd Packet Length Max: 0.0221
+  Flow Packets/s: 0.0215
+  Down/Up Ratio: 0.0130
+  Fwd Packets/s: 0.0121
+  Idle Mean: 0.0111
+
+Random Forest:
+  Bwd Init Win Bytes: 0.1253
+  Bwd IAT Min: 0.1222
+  Fwd Packets/s: 0.0889
+  Fwd Header Length: 0.0695
+  Subflow Fwd Packets: 0.0677
+  Total Fwd Packet: 0.0370
+  Dst Port: 0.0304
+  Bwd IAT Total: 0.0285
+  Src Port: 0.0266
+  Bwd IAT Mean: 0.0211
+  Bwd Header Length: 0.0207
+  Flow IAT Min: 0.0203
+  Down/Up Ratio: 0.0164
+  Bwd IAT Max: 0.0152
+  Flow Packets/s: 0.0151
+
+XGBoost:
+  Bwd Init Win Bytes: 0.2786
+  Bwd IAT Min: 0.0896
+  Bwd IAT Mean: 0.0794
+  Active Min: 0.0637
+  Bwd IAT Max: 0.0631
+  Total Fwd Packet: 0.0621
+  Fwd Packets/s: 0.0417
+  Dst Port: 0.0254
+  RST Flag Count: 0.0233
+  SYN Flag Count: 0.0219
+  Active Mean: 0.0198
+  Flow IAT Mean: 0.0183
+  Flow IAT Min: 0.0169
+  FIN Flag Count: 0.0138
+  Src Port: 0.0137
