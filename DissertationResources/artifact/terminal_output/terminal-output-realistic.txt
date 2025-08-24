@@ -1,0 +1,368 @@
+mlenv) d3b-1001@D3bian:~/Downloads/DissertationResources/final-ML$ python3 final-C2-ML-code.py 
+Network Traffic Classification ML Pipeline
+Dataset files will be automatically named in outputs based on filenames
+Training dataset: Synthetic-Havoc-Dataset.csv
+Testing dataset: External-Realistic-C2-Dataset.csv
+STARTING COMPLETE ML PIPELINE
+============================================================
+
+============================================================
+  STEP 1: LOADING DATASETS
+============================================================
+Training dataset: Synthetic-Havoc-Dataset.csv
+Training dataset name: Synthetic-Havoc-Dataset
+Synthetic-Havoc-Dataset dataset shape: (90263, 79)
+
+Testing dataset: External-Realistic-C2-Dataset.csv
+Testing dataset name: External-Realistic-C2-Dataset
+External-Realistic-C2-Dataset dataset shape: (468575, 79)
+
+Synthetic-Havoc-Dataset dataset label distribution:
+Label
+Benign       77742
+Malicious    12521
+Name: count, dtype: int64
+
+External-Realistic-C2-Dataset dataset label distribution:
+Label
+Benign       258684
+Malicious    209891
+Name: count, dtype: int64
+
+============================================================
+  STEP 2: DATA PREPROCESSING
+============================================================
+
+Processing Synthetic-Havoc-Dataset dataset...
+Selected 78 numeric features + Label column
+Missing values before cleaning: 426
+Infinite values before cleaning: 484
+Missing values after cleaning: 0
+Infinite values after cleaning: 0
+
+Processing External-Realistic-C2-Dataset dataset...
+Selected 78 numeric features + Label column
+Missing values before cleaning: 1078
+Infinite values before cleaning: 1612
+Missing values after cleaning: 0
+Infinite values after cleaning: 0
+
+Encoding labels...
+Label encoding: {'Benign': np.int64(0), 'Malicious': np.int64(1)}
+Total features for training: 78
+
+============================================================
+  STEP 3: DATA SPLITTING
+============================================================
+Training set size: 54157 samples
+Internal validation set size: 36106 samples
+External test set (External-Realistic-C2-Dataset) size: 468575 samples
+
+Training set label distribution:
+Label
+0    46645
+1     7512
+Name: count, dtype: int64
+
+============================================================
+  STEP 4: FEATURE SCALING
+============================================================
+Applying StandardScaler to features...
+Feature scaling completed!
+Training set mean: -0.0000
+Training set std: 0.9405
+
+============================================================
+  STEP 5: HANDLING CLASS IMBALANCE
+============================================================
+Original training set distribution:
+Class 0: 46645 samples
+Class 1: 7512 samples
+
+After SMOTE:
+Class 0: 46645 samples
+Class 1: 46645 samples
+
+============================================================
+  STEP 6: TRAINING ML MODELS
+============================================================
+Training models...
+  - Training Logistic Regression...
+  - Training Random Forest...
+  - Training XGBoost...
+Successfully trained 3 models!
+
+============================================================
+  STEP 7: INTERNAL EVALUATION [60/40% - train/test]
+============================================================
+Evaluating models on internal validation set (Synthetic-Havoc-Dataset (Validation))...
+
+Logistic Regression on Synthetic-Havoc-Dataset (Validation):
+  Accuracy:  0.9981
+  Precision: 0.9981
+  Recall:    0.9981
+  F1-score:  0.9981
+  AUC:       0.9985
+
+Random Forest on Synthetic-Havoc-Dataset (Validation):
+  Accuracy:  0.9999
+  Precision: 0.9999
+  Recall:    0.9999
+  F1-score:  0.9999
+  AUC:       1.0000
+
+XGBoost on Synthetic-Havoc-Dataset (Validation):
+  Accuracy:  0.9999
+  Precision: 0.9999
+  Recall:    0.9999
+  F1-score:  0.9999
+  AUC:       1.0000
+
+============================================================
+  STEP 8: EXTERNAL VALIDATION[100% test]
+============================================================
+Evaluating models on external test set (External-Realistic-C2-Dataset (Test))...
+
+Logistic Regression on External-Realistic-C2-Dataset (Test):
+  Accuracy:  0.4355
+  Precision: 0.4283
+  Recall:    0.4355
+  F1-score:  0.3215
+  AUC:       0.1702
+
+Random Forest on External-Realistic-C2-Dataset (Test):
+  Accuracy:  0.5521
+  Precision: 0.3048
+  Recall:    0.5521
+  F1-score:  0.3927
+  AUC:       0.6361
+
+XGBoost on External-Realistic-C2-Dataset (Test):
+  Accuracy:  0.5520
+  Precision: 0.5129
+  Recall:    0.5520
+  F1-score:  0.3937
+  AUC:       0.2884
+
+============================================================
+  STEP 9: FEATURE IMPORTANCE
+============================================================
+
+Calculating feature importance for Logistic Regression...
+Top 10 features for Logistic Regression:
+  Src Port: 0.3075
+  Fwd Seg Size Min: 0.0769
+  Bwd Packet Length Std: 0.0322
+  Bwd Packet Length Min: 0.0249
+  Fwd Packet Length Std: 0.0151
+  Dst Port: 0.0127
+  Down/Up Ratio: 0.0086
+  Bwd Init Win Bytes: 0.0086
+  Bwd Packet Length Mean: 0.0073
+  Bwd Segment Size Avg: 0.0073
+
+Calculating feature importance for Random Forest...
+Top 10 features for Random Forest:
+  Fwd Packet Length Std: 0.1327
+  Bwd IAT Min: 0.1258
+  Fwd Segment Size Avg: 0.0843
+  Fwd Packet Length Mean: 0.0750
+  Bwd Packet Length Std: 0.0629
+  PSH Flag Count: 0.0527
+  Total Length of Fwd Packet: 0.0517
+  Bwd IAT Mean: 0.0438
+  Packet Length Max: 0.0436
+  Fwd Packet Length Max: 0.0382
+
+Calculating feature importance for XGBoost...
+Top 10 features for XGBoost:
+  Bwd IAT Min: 0.7202
+  Fwd Packet Length Std: 0.1746
+  Fwd Packet Length Max: 0.0462
+  Bwd IAT Mean: 0.0130
+  Fwd Seg Size Min: 0.0129
+  Flow IAT Min: 0.0089
+  Bwd Init Win Bytes: 0.0039
+  Dst Port: 0.0033
+  Src Port: 0.0031
+  FIN Flag Count: 0.0020
+
+============================================================
+  STEP 10: PLOTTING & PRINTING CONFUSION MATRICES
+============================================================
+
+--- Confusion Matrix for Logistic Regression on Synthetic-Havoc-Dataset (Validation) ---
+| Correctly Classified Benign: 31040
+| False Positive: (Predicted Malicious, was Benign): 57
+| False Negative: (Predicted Benign, was Malicious): 11
+| Correctly Classified Malicious: 4998
+-------------------------------------------------
+
+--- Confusion Matrix for Logistic Regression on External-Realistic-C2-Dataset (Test) ---
+| Correctly Classified Benign: 15618
+| False Positive: (Predicted Malicious, was Benign): 243066
+| False Negative: (Predicted Benign, was Malicious): 21431
+| Correctly Classified Malicious: 188460
+-------------------------------------------------
+
+--- Confusion Matrix for Random Forest on Synthetic-Havoc-Dataset (Validation) ---
+| Correctly Classified Benign: 31097
+| False Positive: (Predicted Malicious, was Benign): 0
+| False Negative: (Predicted Benign, was Malicious): 5
+| Correctly Classified Malicious: 5004
+-------------------------------------------------
+
+--- Confusion Matrix for Random Forest on External-Realistic-C2-Dataset (Test) ---
+| Correctly Classified Benign: 258683
+| False Positive: (Predicted Malicious, was Benign): 1
+| False Negative: (Predicted Benign, was Malicious): 209891
+| Correctly Classified Malicious: 0
+-------------------------------------------------
+
+--- Confusion Matrix for XGBoost on Synthetic-Havoc-Dataset (Validation) ---
+| Correctly Classified Benign: 31097
+| False Positive: (Predicted Malicious, was Benign): 0
+| False Negative: (Predicted Benign, was Malicious): 3
+| Correctly Classified Malicious: 5006
+-------------------------------------------------
+
+--- Confusion Matrix for XGBoost on External-Realistic-C2-Dataset (Test) ---
+| Correctly Classified Benign: 258374
+| False Positive: (Predicted Malicious, was Benign): 310
+| False Negative: (Predicted Benign, was Malicious): 209622
+| Correctly Classified Malicious: 269
+-------------------------------------------------
+
+Confusion matrices saved!
+Confusion matrices also printed to terminal!
+
+Plotting learning curves...
+Learning curves saved!
+
+Plotting feature importance...
+Feature importance plots saved!
+
+============================================================
+  STEP 11: SAVING RESULTS SUMMARY
+============================================================
+Results summary saved to: ml_results/results_summary_20250822_153156.txt
+Feature importance CSVs saved!
+
+============================================================
+  STEP 12: COMBINED FEATURE ANALYSIS
+============================================================
+Analysis of top features across all models:
+
+TOP 15 FEATURES FROM EACH MODEL:
+============================================================
+
+Logistic Regression:
+------------------------------
+   1. Src Port                      : 0.3075
+   2. Fwd Seg Size Min              : 0.0769
+   3. Bwd Packet Length Std         : 0.0322
+   4. Bwd Packet Length Min         : 0.0249
+   5. Fwd Packet Length Std         : 0.0151
+   6. Dst Port                      : 0.0127
+   7. Down/Up Ratio                 : 0.0086
+   8. Bwd Init Win Bytes            : 0.0086
+   9. Bwd Packet Length Mean        : 0.0073
+  10. Bwd Segment Size Avg          : 0.0073
+  11. Average Packet Size           : 0.0044
+  12. Bwd IAT Max                   : 0.0030
+  13. RST Flag Count                : 0.0022
+  14. Bwd Packet Length Max         : 0.0017
+  15. Bwd Packets/s                 : 0.0016
+
+Random Forest:
+------------------------------
+   1. Fwd Packet Length Std         : 0.1327
+   2. Bwd IAT Min                   : 0.1258
+   3. Fwd Segment Size Avg          : 0.0843
+   4. Fwd Packet Length Mean        : 0.0750
+   5. Bwd Packet Length Std         : 0.0629
+   6. PSH Flag Count                : 0.0527
+   7. Total Length of Fwd Packet    : 0.0517
+   8. Bwd IAT Mean                  : 0.0438
+   9. Packet Length Max             : 0.0436
+  10. Fwd Packet Length Max         : 0.0382
+  11. FWD Init Win Bytes            : 0.0365
+  12. Packet Length Variance        : 0.0359
+  13. Packet Length Std             : 0.0264
+  14. Src Port                      : 0.0227
+  15. Total Length of Bwd Packet    : 0.0192
+
+XGBoost:
+------------------------------
+   1. Bwd IAT Min                   : 0.7202
+   2. Fwd Packet Length Std         : 0.1746
+   3. Fwd Packet Length Max         : 0.0462
+   4. Bwd IAT Mean                  : 0.0130
+   5. Fwd Seg Size Min              : 0.0129
+   6. Flow IAT Min                  : 0.0089
+   7. Bwd Init Win Bytes            : 0.0039
+   8. Dst Port                      : 0.0033
+   9. Src Port                      : 0.0031
+  10. FIN Flag Count                : 0.0020
+  11. Fwd IAT Min                   : 0.0017
+  12. Bwd Packets/s                 : 0.0017
+  13. Total Bwd packets             : 0.0016
+  14. FWD Init Win Bytes            : 0.0011
+  15. Down/Up Ratio                 : 0.0007
+
+COMBINED RANKING OF TOP FEATURES:
+============================================================
+Features ranked by frequency and average importance across all models
+
+Top 20 most important features across all models:
+------------------------------------------------------------
+ 1. Fwd Packet Length Std          | Avg Imp: 0.1075 | Models(3): Logistic, Random, XGBoost
+ 2. Src Port                       | Avg Imp: 0.1111 | Models(3): Logistic, Random, XGBoost
+ 3. Bwd IAT Min                    | Avg Imp: 0.4230 | Models(2): Random, XGBoost
+ 4. Fwd Seg Size Min               | Avg Imp: 0.0449 | Models(2): Logistic, XGBoost
+ 5. Bwd Packet Length Std          | Avg Imp: 0.0475 | Models(2): Logistic, Random
+ 6. Bwd IAT Mean                   | Avg Imp: 0.0284 | Models(2): Random, XGBoost
+ 7. Fwd Packet Length Max          | Avg Imp: 0.0422 | Models(2): Random, XGBoost
+ 8. Dst Port                       | Avg Imp: 0.0080 | Models(2): Logistic, XGBoost
+ 9. Bwd Init Win Bytes             | Avg Imp: 0.0063 | Models(2): Logistic, XGBoost
+10. Down/Up Ratio                  | Avg Imp: 0.0046 | Models(2): Logistic, XGBoost
+11. FWD Init Win Bytes             | Avg Imp: 0.0188 | Models(2): Random, XGBoost
+12. Bwd Packets/s                  | Avg Imp: 0.0016 | Models(2): Logistic, XGBoost
+13. Fwd Segment Size Avg           | Avg Imp: 0.0843 | Models(1): Random
+14. Fwd Packet Length Mean         | Avg Imp: 0.0750 | Models(1): Random
+15. Bwd Packet Length Min          | Avg Imp: 0.0249 | Models(1): Logistic
+16. PSH Flag Count                 | Avg Imp: 0.0527 | Models(1): Random
+17. Flow IAT Min                   | Avg Imp: 0.0089 | Models(1): XGBoost
+18. Total Length of Fwd Packet     | Avg Imp: 0.0517 | Models(1): Random
+19. Packet Length Max              | Avg Imp: 0.0436 | Models(1): Random
+20. Bwd Packet Length Mean         | Avg Imp: 0.0073 | Models(1): Logistic
+
+Features important in ALL 3 models:
+----------------------------------------
+  1. Fwd Packet Length Std         : 0.1075
+  2. Src Port                      : 0.1111
+
+Features important to only ONE model:
+----------------------------------------
+  Fwd Segment Size Avg          : Random Forest (0.0843)
+  Fwd Packet Length Mean        : Random Forest (0.0750)
+  Bwd Packet Length Min         : Logistic Regression (0.0249)
+  PSH Flag Count                : Random Forest (0.0527)
+  Flow IAT Min                  : XGBoost (0.0089)
+  Total Length of Fwd Packet    : Random Forest (0.0517)
+  Packet Length Max             : Random Forest (0.0436)
+  Bwd Packet Length Mean        : Logistic Regression (0.0073)
+  Bwd Segment Size Avg          : Logistic Regression (0.0073)
+  FIN Flag Count                : XGBoost (0.0020)
+
+Feature Analysis Complete!
+Total unique features in top 15 across all models: 31
+Features appearing in multiple models: 12
+
+============================================================
+  PIPELINE COMPLETED SUCCESSFULLY!
+============================================================
+Training Dataset: Synthetic-Havoc-Dataset
+Testing Dataset: External-Realistic-C2-Dataset
+All results saved in directory: ml_results
+
